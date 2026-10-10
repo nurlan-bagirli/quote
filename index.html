@@ -37,7 +37,7 @@
     <div><div class="eyebrow">EVİN, SƏNİN QAYDALARIN</div><h1>Salam, Nurlan <span style="display:inline-block;transform:rotate(-8deg)">✦</span></h1><p>Evində nə baş verdiyini bir baxışda gör. Üç otaq, bir panel və saysız ağıllı ssenari.</p></div>
     <div class="heroactions"><button class="outlinebtn" id="refreshBtn">↻ Yenilə</button><button class="primary" id="scanBtn">⌁ Bluetooth skanını başlat</button></div>
   </section>
-  <div id="buildStamp" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 13px;margin:-8px 0 16px;border:1px solid rgba(108,240,194,.28);border-radius:12px;background:rgba(108,240,194,.06);font-size:11px;color:var(--muted)"><span style="color:var(--mint);font-weight:800">SAYT VERSİYASI: BLE-FIX-07</span><span>· Kod yenilənməsi: 10.10.2026 · GATT-TEST</span><span>· Bu səhifə açılıb: <strong id="visibleOpenedAt" style="color:var(--text)">hesablanır…</strong></span><button type="button" id="checkVersionBtn" class="outlinebtn" style="margin-left:auto;padding:5px 8px;font-size:10px">Vaxtı yenilə</button></div>
+  <div id="buildStamp" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 13px;margin:-8px 0 16px;border:1px solid rgba(108,240,194,.28);border-radius:12px;background:rgba(108,240,194,.06);font-size:11px;color:var(--muted)"><span style="color:var(--mint);font-weight:800">SAYT VERSİYASI: BLE-FIX-08</span><span>· Kod yenilənməsi: 10.10.2026 · Xiaomi GATT</span><span>· Bu səhifə açılıb: <strong id="visibleOpenedAt" style="color:var(--text)">hesablanır…</strong></span><button type="button" id="checkVersionBtn" class="outlinebtn" style="margin-left:auto;padding:5px 8px;font-size:10px">Vaxtı yenilə</button></div>
   <div style="border:1px solid rgba(255,189,122,.3);border-radius:13px;padding:12px 14px;margin:0 0 14px;background:rgba(255,189,122,.06);font-size:12px;color:var(--muted)"><strong style="color:var(--orange)">Məlumat:</strong> Temperatur və tarixçə hazırda canlı deyil — paneldəki rəqəmlər demo nümunələridir. Sensor seçilməsi yalnız Bluetooth cihazını tapır; real tarixçə yalnız temperatur/rütubət uğurla oxunandan sonra yazılacaq.</div>
   <div class="notice"><div class="noticeicon">✦</div><div><strong>Hazırda nümayiş rejimidir</strong><p>Panelin bütün rəqəmləri və qrafikləri nümunə məlumatdır. GitHub Pages özü Xiaomi sensorlarının BLE reklamlarını birbaşa oxuya bilmir; real məlumat üçün uyğun lokal körpü (məsələn, ESP32) quracağıq.</p></div></div>
   <section class="scanpanel" id="bluetoothPanel"><div class="scanhead"><div><strong>Bluetooth laboratoriyası</strong><p>Yaxındakı BLE reklam paketlərini dinlə və cihazların xam məlumatını yoxla.</p></div><button class="outlinebtn" id="stopScanBtn" disabled>■ Dayandır</button></div><div class="scanstatus" id="scanStatus"><span class="dot"></span> Skan başlamayıb · real sensor məlumatı hələ yoxdur</div><div class="scanlist" id="scanList"><div class="scanempty">“Bluetooth skanını başlat” düyməsini bas. İlk sınaqda sensorları kompüterə yaxın saxla.</div></div><p style="font-size:10px;color:var(--muted);margin:12px 0 0">Qeyd: bu funksiya dəstəklənən Chrome/Edge brauzerində və HTTPS-də işləyir. Reklam skanı bəzi versiyalarda chrome://flags/#enable-experimental-web-platform-features tələb edir. Xam paket görünməsi temperaturun artıq dekodlandığı demək deyil.</p></section>
@@ -130,10 +130,11 @@ async function startBleScan(){
     toast("Real sensor ölçməsi alındı: "+temp.toFixed(2)+" °C");
   };
   // The original Xiaomi LYWSD03MMC GATT service used by pvvx Flasher.
-  characteristic.addEventListener("characteristicvaluechanged",e=>renderMeasurement(e.target.value));
+  const valueHandler=e=>renderMeasurement(e.target.value);
+  characteristic.addEventListener("characteristicvaluechanged",valueHandler);
   await characteristic.startNotifications();
   try{renderMeasurement(await characteristic.readValue())}catch(e){$("#scanList").innerHTML='<div class="scanempty">Bildirişlər aktivdir. İlk sensor ölçməsi gələndə temperatur və rütubət burada görünəcək.</div>'}
-  bleScan={stop:()=>{try{characteristic.removeEventListener("characteristicvaluechanged",onMiValue)}catch(e){}try{if(device.gatt&&device.gatt.connected)device.gatt.disconnect()}catch(e){}}};
+  bleScan={stop:()=>{try{characteristic.removeEventListener("characteristicvaluechanged",valueHandler)}catch(e){}try{if(device.gatt&&device.gatt.connected)device.gatt.disconnect()}catch(e){}}};
   $("#scanStatus").textContent="GATT qoşuldu, temperatur/rütubət bildirişləri aktivdir. Sensor növbəti ölçməni göndərəndə məlumat görünəcək.";
   toast("Xiaomi sensor xidmətinə qoşuldu.");
  }catch(e){
@@ -151,6 +152,7 @@ function stopBleScan(){try{if(bleScan&&bleScan.stop)bleScan.stop()}catch(e){}if(
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3400)}
 function now(){return new Date().toLocaleTimeString("az-AZ",{hour:"2-digit",minute:"2-digit"})}
 $("#lastUpdate").textContent="Demo yenilənməsi: "+now();
+(function loadStoredRealReadings(){try{const saved=JSON.parse(localStorage.getItem("nurlanHomeRealReadings")||"[]");const host=$("#events");if(!host||!saved.length)return;saved.slice(-10).forEach(r=>{const time=new Date(r.time);const ev=document.createElement("div");ev.className="event";const ico=document.createElement("div");ico.className="eventicon";ico.textContent="🌡️";const body=document.createElement("div");const strong=document.createElement("strong");strong.textContent=Number(r.temp).toFixed(2)+" °C · "+r.hum+"% RH · "+r.batt+" mV";const p=document.createElement("p");p.textContent=(r.device||"LYWSD03MMC")+" · saxlanmış real ölçmə";body.append(strong,p);const tm=document.createElement("span");tm.className="eventtime";tm.textContent=time.toLocaleTimeString("az-AZ",{hour:"2-digit",minute:"2-digit"});ev.append(ico,body,tm);host.prepend(ev)});while(host.children.length>20)host.lastElementChild.remove()}catch(e){}})();
 const chart=$("#tempChart"),ctx=chart.getContext("2d");
 const series=[
 {color:"#6cf0c2",values:[23.8,24,24.2,24.1,24.4,24.7,24.6,24.8,25,24.9,24.8,24.8]},
