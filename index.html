@@ -69,7 +69,7 @@
     <article class="card" id="history"><div class="cardtitle"><div><h3>Son hadisələr</h3><p>Nümunə fəaliyyət jurnalı</p></div><button class="outlinebtn" id="clearEvents" style="font-size:10px;padding:7px 9px">Təmizlə</button></div><div class="events" id="events"><div class="event"><div class="eventicon">🌡️</div><div><strong>Temperatur yenilənməsi</strong><p>Mətbəx sensoru · nümunə məlumat</p></div><span class="eventtime">10:42</span></div><div class="event"><div class="eventicon">☀️</div><div><strong>İşıqlılıq ölçüldü</strong><p>BH1750 · demo rejimi</p></div><span class="eventtime">10:35</span></div><div class="event"><div class="eventicon">🚶</div><div><strong>Hərəkət aşkarlanması</strong><p>PIR · demo hadisəsi</p></div><span class="eventtime">10:21</span></div></div></article>
     <article class="card" id="automation"><div class="cardtitle"><div><h3>Sürətli ssenarilər</h3><p>İdeya və test düymələri</p></div><span style="font-size:10px;color:var(--muted)">Simulyasiya</span></div><div class="quickgrid"><button class="quick" data-action="night"><span>🌙</span><strong>Gecə rejimi</strong><small>Qaranlıq + hərəkət</small></button><button class="quick" data-action="comfort"><span>🌡️</span><strong>Komfort yoxlaması</strong><small>İqlim göstəriciləri</small></button><button class="quick" data-action="climate"><span>❄️</span><strong>İqlim ssenarisi</strong><small>IR inteqrasiyası sonra</small></button><button class="quick" data-action="export"><span>📊</span><strong>Hesabat yarat</strong><small>CSV faylı endir</small></button></div></article>
   </section>
-  <footer class="foot"><span>© 2026 Nurlan Home · Sensor Studio</span><span>Şəxsi layihə · GitHub Pages üçün hazırlanıb</span><span>🔒 BLE açarı və token tələb etmir</span></footer>
+  <footer class="foot"><span>© 2026 Nurlan Home · Sensor Studio</span><span>Sayt kodu: <strong>10.10.2026 · BLE-FIX-03</strong></span><span>Bu açılış: <strong id="pageOpenedAt">vaxt hesablanır…</strong></span><span>🔒 BLE açarı və token tələb etmir</span></footer>
 </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -77,6 +77,7 @@
 <script>
 (function(){
 const $=s=>document.querySelector(s), $=s=>Array.from(document.querySelectorAll(s));
+const openedAt=new Date();$("#pageOpenedAt").textContent=openedAt.toLocaleString("az-AZ",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
 let toastTimer;
 let bleScan=null, bleSeen=new Map();
 function hexBytes(dataView){if(!dataView)return "";const a=[];for(let i=0;i<dataView.byteLength;i++)a.push(dataView.getUint8(i).toString(16).padStart(2,"0"));return a.join(" ").toUpperCase()}
