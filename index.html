@@ -83,7 +83,38 @@ let bleScan=null, bleSeen=new Map();
 function hexBytes(dataView){if(!dataView)return "";const a=[];for(let i=0;i<dataView.byteLength;i++)a.push(dataView.getUint8(i).toString(16).padStart(2,"0"));return a.join(" ").toUpperCase()}
 function renderBleDevice(d){const list=$("#scanList");const id=d.id||"BLE cihaz";const key=id;const old=bleSeen.get(key)||{};const item={name:d.name||old.name||"Adsız BLE cihaz",id, rssi:typeof d.rssi==="number"?d.rssi:old.rssi, time:now(), manufacturer:d.manufacturerData?Array.from(d.manufacturerData.entries()).map(([k,v])=>"Company 0x"+Number(k).toString(16).padStart(4,"0")+": "+hexBytes(v)).join(" · "):old.manufacturer||"", service:d.serviceData?Array.from(d.serviceData.entries()).map(([k,v])=>k+": "+hexBytes(v)).join(" · "):old.service||""};bleSeen.set(key,{...old,...item});const all=Array.from(bleSeen.values()).sort((a,b)=>(b.time||"").localeCompare(a.time||""));list.innerHTML=all.map(x=>'<div class="scanitem"><div><strong>'+escapeHtml(x.name)+'</strong><small>'+escapeHtml(x.id)+(x.manufacturer?'<br>'+escapeHtml(x.manufacturer):'')+(x.service?'<br>'+escapeHtml(x.service):'')+'</small></div><span class="rssi">'+(x.rssi==null?"RSSI —":x.rssi+" dBm")+'</span></div>').join("")}
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-async function startBleScan(){if(!window.isSecureContext){$("#scanStatus").textContent="Bluetooth üçün HTTPS tələb olunur. GitHub Pages ünvanını aç.";toast("Bu səhifə HTTPS deyil.");return}if(!navigator.bluetooth){$("#scanStatus").textContent="Bu brauzerdə Web Bluetooth yoxdur. Kompüterdə Chrome və ya Edge istifadə et.";toast("Web Bluetooth mövcud deyil.");return}try{bleSeen.clear();$("#scanList").innerHTML='<div class="scanempty">Bluetooth pəncərəsi açılır…</div>';$("#scanStatus").textContent="Brauzerin Bluetooth imkanları yoxlanılır…";if(navigator.bluetooth.requestLEScan){bleScan=await navigator.bluetooth.requestLEScan({acceptAllAdvertisements:true,keepRepeatedDevices:true});navigator.bluetooth.addEventListener("advertisementreceived",onAdvertisement);$("#scanBtn").disabled=true;$("#stopScanBtn").disabled=false;$("#scanStatus").innerHTML='<span class="dot" style="background:var(--mint);box-shadow:0 0 0 4px rgba(108,240,194,.1)"></span> BLE skanı aktivdir · reklam paketləri dinlənilir';$("#scanList").innerHTML='<div class="scanempty">Skan edilir… Xiaomi sensorlarını kompüterə yaxınlaşdır.</div>';toast("BLE skanı başladı.")}else{ $("#scanStatus").textContent="Bu brauzer ümumi reklam skanını dəstəkləmir. Tək cihazı seçmə üsulu açılır…";const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true});$("#scanList").innerHTML='<div class="scanitem"><div><strong>'+escapeHtml(device.name||"Adsız BLE cihaz")+'</strong><small>'+escapeHtml(device.id)+'</small></div><span class="rssi">Seçildi</span></div>';$("#scanStatus").textContent="Bir cihaz seçildi. Bu üsul üç sensoru eyni vaxtda skan etmir; GATT məlumatlarını oxumaq üçün xidmət UUID-ləri lazımdır.";toast("Cihaz seçildi: "+(device.name||device.id));}}catch(e){let msg=e.name==="NotFoundError"?"Cihaz seçimi ləğv edildi və ya cihaz tapılmadı.":e.name==="SecurityError"?"Bluetooth icazəsi rədd edildi. Saytı HTTPS-də aç və icazəni yoxla.":e.name==="NotAllowedError"?"Bluetooth icazəsi verilmədi.":e.name==="NotSupportedError"?"Brauzer bu Bluetooth funksiyasını dəstəkləmir.":e.name+": "+e.message;$("#scanStatus").textContent=msg;$("#scanList").innerHTML='<div class="scanempty">'+escapeHtml(msg)+'</div>';toast(msg)}}
+async function startBleScan(){
+ if(!window.isSecureContext){$("#scanStatus").textContent="Bluetooth üçün HTTPS tələb olunur. GitHub Pages ünvanını aç.";toast("Bu səhifə HTTPS deyil.");return}
+ if(!navigator.bluetooth){$("#scanStatus").textContent="Bu brauzerdə Web Bluetooth yoxdur. Kompüterdə Chrome və ya Edge istifadə et.";toast("Web Bluetooth mövcud deyil.");return}
+ try{
+  bleSeen.clear();
+  $("#scanList").innerHTML='<div class="scanempty">Bluetooth cihaz seçimi açılır…</div>';
+  $("#scanStatus").textContent="Cihaz seçimi gözlənilir. Siyahıda Xiaomi sensorunu seç.";
+  // Avoid Chrome's experimental accept-all advertisement scan permission prompt.
+  const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[0x181A]});
+  renderBleDevice({id:device.id,name:device.name||"Adı göstərilməyən BLE cihaz"});
+  $("#scanBtn").disabled=true;
+  $("#stopScanBtn").disabled=false;
+  $("#scanStatus").textContent="Cihaz seçildi. İndi reklam dinləməsini yoxlayıram…";
+  if(typeof device.watchAdvertisements==="function"){
+   device.addEventListener("advertisementreceived",onAdvertisement);
+   await device.watchAdvertisements();
+   bleScan={stop:()=>{try{device.unwatchAdvertisements()}catch(e){}device.removeEventListener("advertisementreceived",onAdvertisement)}};
+   $("#scanStatus").textContent="Cihaz seçildi və reklam dinləməsi aktivdir. Bu üsul seçilən cihazı izləyir; digər sensorlar üçün yenidən seç.";
+   $("#scanList").innerHTML='<div class="scanempty">Dinlənilir… Sensoru kompüterə yaxın saxla.</div>';
+   toast("Cihaz seçildi; reklamlar gözlənilir.");
+  }else{
+   $("#scanStatus").textContent="Cihaz seçildi. Bu Chrome quruluşunda seçilmiş cihazın reklamlarını izləmək dəstəklənmir; ən azı cihaz seçimi işləyir.";
+   toast("Bluetooth cihazı seçildi.");
+  }
+ }catch(e){
+  let msg=e.name==="NotFoundError"?"Cihaz seçimi bağlandı və ya uyğun cihaz seçilmədi.":e.name==="SecurityError"?"Bluetooth icazəsi rədd edildi. Sayt icazələrini yoxla.":e.name==="NotAllowedError"?"Bluetooth icazəsi verilmədi.":e.name==="NotSupportedError"?"Bu brauzer tələb olunan Bluetooth funksiyasını dəstəkləmir.":e.name+": "+e.message;
+  $("#scanStatus").textContent=msg;
+  $("#scanList").innerHTML='<div class="scanempty">'+escapeHtml(msg)+'</div>';
+  $("#scanBtn").disabled=false;$("#stopScanBtn").disabled=true;
+  toast(msg);
+ }
+}
 function onAdvertisement(e){const device=e.device;renderBleDevice({id:device.id,name:device.name,rssi:e.rssi,manufacturerData:e.manufacturerData,serviceData:e.serviceData})}
 function stopBleScan(){try{if(bleScan&&bleScan.stop)bleScan.stop()}catch(e){}if(navigator.bluetooth)navigator.bluetooth.removeEventListener("advertisementreceived",onAdvertisement);bleScan=null;$("#scanBtn").disabled=false;$("#stopScanBtn").disabled=true;$("#scanStatus").innerHTML='<span class="dot"></span> Skan dayandırıldı · tapılan cihaz: '+bleSeen.size;toast("Bluetooth skanı dayandırıldı.")}
 
