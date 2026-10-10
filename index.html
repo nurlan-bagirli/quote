@@ -76,7 +76,7 @@
 <div class="modalback" id="modalBack"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h2 id="modalTitle">Canlı sensor bağlantısı</h2><p id="modalText">Bu sayt hazırda demo rejimindədir.</p><ul id="modalList"><li>GitHub Pages yalnız statik sayt fayllarını yayımlayır.</li><li>Xiaomi sensorlarının BLE reklamlarını oxumaq üçün ayrıca yerli körpü, məsələn ESP32, quracağıq.</li><li>ESP32 qoşulandan sonra bu paneli real məlumatlarla birləşdirə bilərik.</li></ul><div class="modalactions"><button class="primary" id="closeModal">Başa düşdüm</button></div></div></div>
 <script>
 (function(){
-const $=s=>document.querySelector(s), $=s=>Array.from(document.querySelectorAll(s));
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const openedAt=new Date();$("#pageOpenedAt").textContent=openedAt.toLocaleString("az-AZ",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
 let toastTimer;
 let bleScan=null, bleSeen=new Map();
