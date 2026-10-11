@@ -45,7 +45,7 @@
 
 <header>
  <div class="brand"><div class="logo">N</div><div><h1>NURLAN HOME</h1><p>Redmi Pad 2 · Xiaomi BLE sensor paneli</p></div></div>
- <div class="version">SON VERSİYA · SMART-HOME-05 · 11.10.2026</div>
+ <div class="version">SON VERSİYA · SMART-HOME-06 · 11.10.2026</div>
 </header>
 <section class="intro">
  <div class="eyebrow">CANLI SENSOR MONİTORİNQİ</div>
@@ -79,7 +79,7 @@
  <article><b>② Digər ikisi</b><p>İkinci və üçüncü kartda eyni addımı təkrarla. Əvvəlki sensorun bağlantısını kəsmək lazım deyil.</p></article>
  <article><b>③ Redmi Pad 2 açıq qalsın</b><p>Canlı məlumat üçün bu səhifəni Chrome-da açıq saxla. Brauzer bağlansa və ya planşet yuxuya getsə, ölçmələr dayana bilər.</p></article>
 </section>
-<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-05 · BLE cihaz seçimi və ID qeydi</span><span id="pageTime">Səhifə açılıb: —</span></footer>
+<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-06 · Yalnız Xiaomi LYWSD03MMC sensor filtri</span><span id="pageTime">Səhifə açılıb: —</span></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -152,7 +152,7 @@
   const old=connections[slot];if(old){toast("Bu kartda sensor artıq qoşulub. Əvvəl əlaqəni kəs.");return}
   const button=document.querySelector('.connect[data-slot="'+slot+'"]');button.disabled=true;button.textContent="Sensor seçilir…";
   try{
-   const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SERVICE]});
+   const device=await navigator.bluetooth.requestDevice({filters:[{namePrefix:"LYWSD03MMC"}],optionalServices:[SERVICE]});
    // If the same device is already assigned to another card, avoid duplicate GATT sessions.
    const duplicate=connections.findIndex((c,i)=>c&&c.device.id===device.id&&i!==slot);
    if(duplicate!==-1){throw new Error("Bu sensor artıq "+(duplicate+1)+"-ci kartda qoşulub. Başqa sensor seç.")}
