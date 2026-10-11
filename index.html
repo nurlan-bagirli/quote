@@ -87,7 +87,7 @@
 
 <header>
  <div class="brand"><div class="logo">N</div><div><h1>NURLAN HOME</h1><p>Redmi Pad 2 · Xiaomi BLE sensor paneli</p></div></div>
- <div class="version">SON VERSİYA · SMART-HOME-09 · 11.10.2026</div>
+ <div class="version">SON VERSİYA · SMART-HOME-10 · 11.10.2026</div>
 </header>
 <section class="intro">
  <div class="eyebrow">CANLI SENSOR MONİTORİNQİ</div>
@@ -121,7 +121,7 @@
  <article><b>② Digər ikisi</b><p>İkinci və üçüncü kartda eyni addımı təkrarla. Əvvəlki sensorun bağlantısını kəsmək lazım deyil.</p></article>
  <article><b>③ Redmi Pad 2 açıq qalsın</b><p>Canlı məlumat üçün bu səhifəni Chrome-da açıq saxla. Brauzer bağlansa və ya planşet yuxuya getsə, ölçmələr dayana bilər.</p></article>
 </section>
-<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-09 · Keş nəzarəti, JARVIS/BLE sabitliyi</span><span id="pageTime">Səhifə açılıb: —</span></footer>
+<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-10 · JavaScript sintaksisi yoxlanılıb</span><span id="pageTime">Səhifə açılıb: —</span></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -236,7 +236,7 @@
  $("#dailyReport").addEventListener("click",renderDailyReport);
  $("#nightMode").addEventListener("click",()=>{document.body.classList.toggle("night-mode");const on=document.body.classList.contains("night-mode");$("#nightMode").textContent=on?"☀️ Gecə rejimini söndür":"🌙 Gecə rejimini aktiv et";localStorage.setItem("nurlanHomeNightMode",on?"1":"0")});
  $("#saveAutomation").addEventListener("click",()=>{const a={room:$("#autoRoom").value,metric:$("#autoMetric").value,op:$("#autoOperator").value,value:Number($("#autoValue").value),minutes:Number($("#autoMinutes").value)};if(!Number.isFinite(a.value)){toast("Həddi yoxla.");return}localStorage.setItem("nurlanHomeAutomation",JSON.stringify(a));renderAutomation();toast("Qayda saxlanıldı.")});$("#notifyPermission").addEventListener("click",requestNotificationPermission);$("#testSound").addEventListener("click",()=>{playAlertSound();toast("Qısa səs sınağı.")});$("#enableSound").addEventListener("change",()=>{const rules=getRules();rules.sound=$("#enableSound").checked;localStorage.setItem(settingsKey,JSON.stringify(rules));if(rules.sound)playAlertSound()});$("#enableNotifications").addEventListener("change",()=>{const rules=getRules();rules.notifications=$("#enableNotifications").checked;localStorage.setItem(settingsKey,JSON.stringify(rules));if(rules.notifications)requestNotificationPermission();renderNotificationStatus()});$("#chartRange").addEventListener("change",()=>{chartHours=$("#chartRange").value==="all"?"all":Number($("#chartRange").value);renderCharts();renderMetrics();renderRoomStats()});$("#exportBtn").addEventListener("click",()=>{const rows=historyRows();if(!rows.length){toast("İxrac ediləcək real ölçmə yoxdur.");return}const csv=[["Vaxt","Otaq","Cihaz","MAC","Temperatur_C","Rutubet_faiz","Batareya_mV"],...rows.map(r=>[new Date(r.time).toLocaleString("az-AZ"),r.room,r.device,r.mac||"",r.temp,r.hum,r.batt])].map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="nurlan-home-real-sensor-history.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
- document.querySelectorAll(".roomselect").forEach(el=>el.addEventListener("change",()=>{saveRoomSettings();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts()}));document.querySelectorAll(".macbox input").forEach(el=>el.addEventListener("change",()=>{const slot=Number(el.id.replace("mac",""));const rows=historyRows();rows.forEach(r=>{if(Number(r.slot)===slot)r.mac=el.value.trim()});saveHistory(rows);saveRoomSettings();renderHistory();toast("MAC qeydi saxlanıldı.")}));loadRoomSettings();const savedRules=getRules();$("#tempLow").value=savedRules.tempLow;$("#tempHigh").value=savedRules.tempHigh;$("#humLow").value=savedRules.humLow;$("#humHigh").value=savedRules.humHigh;$("#enableSound").checked=savedRules.sound!==false;$("#pageTime").textContent="Səhifə açılıb: "+stamp();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderNotificationStatus();updateCount();renderProDashboard();renderAutomation();if(localStorage.getItem("nurlanHomeNightMode")==="1"){document.body.classList.add("night-mode");$("#nightMode").textContent="☀️ Gecə rejimini söndür"}if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const reg=await navigator.serviceWorker.register("./sw.js?v=SMART-HOME-09",{updateViaCache:"none"});await reg.update()}catch(e){console.warn("Service worker yenilənmədi",e)}})}window.addEventListener("resize",renderCharts);
+ document.querySelectorAll(".roomselect").forEach(el=>el.addEventListener("change",()=>{saveRoomSettings();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts()}));document.querySelectorAll(".macbox input").forEach(el=>el.addEventListener("change",()=>{const slot=Number(el.id.replace("mac",""));const rows=historyRows();rows.forEach(r=>{if(Number(r.slot)===slot)r.mac=el.value.trim()});saveHistory(rows);saveRoomSettings();renderHistory();toast("MAC qeydi saxlanıldı.")}));loadRoomSettings();const savedRules=getRules();$("#tempLow").value=savedRules.tempLow;$("#tempHigh").value=savedRules.tempHigh;$("#humLow").value=savedRules.humLow;$("#humHigh").value=savedRules.humHigh;$("#enableSound").checked=savedRules.sound!==false;$("#pageTime").textContent="Səhifə açılıb: "+stamp();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderNotificationStatus();updateCount();renderProDashboard();renderAutomation();if(localStorage.getItem("nurlanHomeNightMode")==="1"){document.body.classList.add("night-mode");$("#nightMode").textContent="☀️ Gecə rejimini söndür"}if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const reg=await navigator.serviceWorker.register("./sw.js?v=SMART-HOME-10",{updateViaCache:"none"});await reg.update()}catch(e){console.warn("Service worker yenilənmədi",e)}})}window.addEventListener("resize",renderCharts);
 })();
 
 // JARVIS UI v2: resilient local analytics based only on recorded sensor readings.
@@ -355,7 +355,12 @@
   }
   if(low.includes("ən isti")||low.includes("isti otaq")||low.includes("temperatur")||low.includes("istilik")||low.includes("sərin")){
    const sorted=[...v].sort((x,y)=>x.temp-y.temp),hi=sorted[sorted.length-1],lo=sorted[0];
-   return "Ən isti otaq "+hi.room+" — "+hi.temp.toFixed(1)+"°C"+(v.length>1?"; ən sərin otaq "+lo.room+" — "+lo.temp.toFixed(1)+"°C. Fərq "+(hi.temp-lo.temp).toFixed(1)+"°C-dir. "+(hi.temp>27?"İsti otaqda günəş düşməsi, pəncərə və havalandırmanı yoxlamaq olar.":hi.temp<18?"Otaq sərin görünür; ölçmənin təzəliyini də yoxla.":"Temperatur göstəricisi təkbaşına rahatlıq hissini tam müəyyən etmir.")) ;
+   let msg="Ən isti otaq "+hi.room+" — "+hi.temp.toFixed(1)+"°C.";
+   if(v.length>1) msg+=" Ən sərin otaq "+lo.room+" — "+lo.temp.toFixed(1)+"°C. Fərq "+(hi.temp-lo.temp).toFixed(1)+"°C-dir.";
+   if(hi.temp>27) msg+=" İsti otaqda günəş düşməsi, pəncərə və havalandırmanı yoxlamaq olar.";
+   else if(hi.temp<18) msg+=" Otaq sərin görünür; ölçmənin təzəliyini də yoxla.";
+   else msg+=" Temperatur göstəricisi təkbaşına rahatlıq hissini tam müəyyən etmir.";
+   return msg;
   }
   if(low.includes("məsləh")||low.includes("meslehet")||low.includes("nə edim")||low.includes("ne edim")||low.includes("yaxşılaşdır")||low.includes("rahat")){
    const tips=[];
