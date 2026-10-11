@@ -20,6 +20,39 @@
 
 /* HOME TIME MACHINE: explain and replay the home's environmental story */
 .tm{margin:20px 0;border:1px solid #35516c;border-radius:24px;overflow:hidden;background:radial-gradient(ellipse at 15% 0%,#193957,transparent 50%),linear-gradient(145deg,#0b172a,#0c1c30)}.tm-head{padding:20px;border-bottom:1px solid #263d57;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.tm-tag{font-size:10px;letter-spacing:2px;color:#8af4df;font-weight:900}.tm-head h2{font-size:clamp(20px,4vw,29px);margin:5px 0}.tm-head p{font-size:12px;color:#9bb3cb;margin:0;max-width:660px}.tm-badge{border:1px solid #35645d;color:#94f7d6;background:#102c2d;padding:7px 10px;border-radius:99px;font-size:10px}.tm-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr);gap:14px;padding:15px}.tm-panel{background:#0d1b2d;border:1px solid #273f5b;border-radius:17px;padding:15px;min-width:0}.tm-panel h3{font-size:13px;margin:0 0 10px}.tm-controls{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.tm-btn{background:#142c44;color:#d9f7ff;border:1px solid #35526e;padding:9px 11px;border-radius:10px;font-size:11px;font-weight:800}.tm-btn.active,.tm-btn.primary{background:linear-gradient(100deg,#81f3d4,#85caff);color:#071629;border-color:transparent}.tm-range{width:100%;accent-color:#81f3d4}.tm-time{display:flex;justify-content:space-between;gap:8px;color:#87a8c7;font-size:10px;margin:5px 0}.tm-stage{min-height:150px;border-radius:14px;background:radial-gradient(ellipse at 50% 100%,#173a55,#091629 70%);border:1px solid #203c57;padding:14px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.tm-stage .tm-big{font-size:clamp(33px,6vw,48px);font-weight:900;letter-spacing:-2px;color:#b5fff1}.tm-stage p{font-size:11px;color:#9eb9d1;margin:3px 0}.tm-bars{display:grid;gap:10px;margin-top:14px}.tm-barrow{display:grid;grid-template-columns:92px 1fr 45px;gap:8px;align-items:center;font-size:10px;color:#aac0d6}.tm-track{height:8px;border-radius:99px;background:#172a40;overflow:hidden}.tm-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#66c7ed,#8cf5d4);width:0;transition:width .3s}.tm-log{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto}.tm-event{border-left:2px solid #4ed6c1;padding:8px 10px;background:#11243a;border-radius:0 10px 10px 0;font-size:11px;color:#c0d5e8}.tm-event small{display:block;color:#7898b6;font-size:9px;margin-bottom:3px}.tm-event.warn{border-color:#ffbc78}.tm-event.alert{border-color:#ff839b}.tm-bottom{padding:0 15px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.tm-stat{padding:12px;border:1px solid #263e59;border-radius:13px;background:#0d1b2d}.tm-stat span{display:block;color:#87a4c0;font-size:9px}.tm-stat b{font-size:19px;display:block;margin-top:4px}.tm-foot{font-size:10px;line-height:1.6;color:#7795b3;padding:0 17px 17px}.tm-empty{font-size:11px;color:#8ca9c5;line-height:1.6}.tm-input{width:100%;background:#071426;border:1px solid #2b4461;border-radius:9px;padding:9px;color:#e8f7ff;font:12px system-ui}.tm-label{font-size:10px;color:#8faac4;display:block;margin:8px 0 4px}@media(max-width:720px){.tm-grid{grid-template-columns:1fr;padding:10px}.tm-bottom{padding:0 10px 10px}.tm-stat{padding:9px}.tm-stat b{font-size:16px}.tm-head{padding:15px}}
+
+/* JARVIS v2 — richer analytical dashboard */
+.jarvis{position:relative;overflow:hidden;border:1px solid #315174!important;background:radial-gradient(ellipse at 8% 0%,#143e52 0,transparent 32%),radial-gradient(ellipse at 100% 100%,#172d57 0,transparent 40%),linear-gradient(145deg,#071322,#0a172b 55%,#091326)!important;box-shadow:0 24px 80px #0005,inset 0 1px #b9fff41a}
+.jarvis:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(#4ce3e31a 1px,transparent 1px),linear-gradient(90deg,#4ce3e31a 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+.j-top,.j-grid,.j-lower,.j-note{position:relative;z-index:1}
+.j-mark{background:radial-gradient(circle,#1e5667,#0a1b2d);box-shadow:0 0 0 5px #58ead80b,0 0 32px #42e5dc2c}
+.j-live{letter-spacing:.7px}
+.j-live-warn{color:#ffd08a!important;border-color:#7c5a2b!important;background:#302312!important}
+.j-orb{width:124px;height:124px;background:radial-gradient(circle at 38% 30%,#f4ffff 0,#9afff2 8%,#40cbd5 21%,#2869a7 43%,#102a55 65%,#071426 69%);box-shadow:0 0 18px #43d6e866,0 0 62px #2767c833,inset 0 0 24px #b8fff755}
+.j-orb:before{border-width:1px;inset:-10px;box-shadow:0 0 22px #4cf5e51a}
+.j-orb:after{inset:-18px}
+.j-orb.thinking{animation:jarvisThinking .75s ease-in-out infinite;filter:saturate(1.3)}
+@keyframes jarvisThinking{0%,100%{transform:scale(1);filter:hue-rotate(0)}50%{transform:scale(1.055);filter:hue-rotate(22deg)}}
+.j-room{backdrop-filter:blur(8px);border-radius:13px;clip-path:none!important}
+.j-room strong{font-variant-numeric:tabular-nums}
+.j-room em{border-radius:99px;padding:4px 6px;background:#06152666;letter-spacing:.3px}
+.j-room em[data-state="good"]{color:#8dffcf}
+.j-room em[data-state="hot"],.j-room em[data-state="humid"]{color:#ffd18a}
+.j-room em[data-state="cool"],.j-room em[data-state="dry"]{color:#9ddcff}
+.j-room.j-stale{border-style:dashed;opacity:.8}
+.j-panel,.j-status,.j-orb-card,.j-scene{box-shadow:inset 0 1px #c8ffff09,0 12px 30px #0002}
+.j-panel h3{letter-spacing:.45px}
+.j-mini>div{border:1px solid #27435e;border-radius:12px;padding:10px;background:linear-gradient(145deg,#112943,#0a192c)}
+.j-mini b{font-size:20px;font-variant-numeric:tabular-nums}
+.j-msg{line-height:1.55;border:1px solid #294765;background:linear-gradient(145deg,#132c47,#10243a);white-space:pre-wrap}
+.j-msg.user{border-color:#2c766e;background:linear-gradient(145deg,#174d4c,#12363e)}
+.j-msg.j-typing{color:#9deee0;animation:jtyping 1s ease-in-out infinite alternate}
+@keyframes jtyping{from{opacity:.55}to{opacity:1}}
+.j-askrow input:focus{outline:2px solid #65e9d3;border-color:transparent}
+.j-quick button:hover,.j-btn:hover{border-color:#70e8d8;filter:brightness(1.08)}
+.j-note{border-top:1px solid #2a4563;background:#0a1729bb}
+@media(max-width:720px){.j-grid{grid-template-columns:1fr;padding:12px}.j-lower{grid-template-columns:1fr;padding:0 12px 12px}.j-scene{min-height:360px}.j-floor{inset:54px 12px 32px;transform:none}.j-room{padding:9px}.j-room b{font-size:10px}.j-room em{font-size:8px}.j-room strong{font-size:22px}.j-orb{width:106px;height:106px}}
+
 </style>
 </head>
 <body>
@@ -45,7 +78,7 @@
 
 <header>
  <div class="brand"><div class="logo">N</div><div><h1>NURLAN HOME</h1><p>Redmi Pad 2 · Xiaomi BLE sensor paneli</p></div></div>
- <div class="version">SON VERSİYA · SMART-HOME-06 · 11.10.2026</div>
+ <div class="version">SON VERSİYA · SMART-HOME-07 · 11.10.2026</div>
 </header>
 <section class="intro">
  <div class="eyebrow">CANLI SENSOR MONİTORİNQİ</div>
@@ -79,7 +112,7 @@
  <article><b>② Digər ikisi</b><p>İkinci və üçüncü kartda eyni addımı təkrarla. Əvvəlki sensorun bağlantısını kəsmək lazım deyil.</p></article>
  <article><b>③ Redmi Pad 2 açıq qalsın</b><p>Canlı məlumat üçün bu səhifəni Chrome-da açıq saxla. Brauzer bağlansa və ya planşet yuxuya getsə, ölçmələr dayana bilər.</p></article>
 </section>
-<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-06 · Yalnız Xiaomi LYWSD03MMC sensor filtri</span><span id="pageTime">Səhifə açılıb: —</span></footer>
+<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-07 · JARVIS analitika və interfeys yenilənməsi</span><span id="pageTime">Səhifə açılıb: —</span></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -197,8 +230,183 @@
  document.querySelectorAll(".roomselect").forEach(el=>el.addEventListener("change",()=>{saveRoomSettings();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts()}));document.querySelectorAll(".macbox input").forEach(el=>el.addEventListener("change",()=>{const slot=Number(el.id.replace("mac",""));const rows=historyRows();rows.forEach(r=>{if(Number(r.slot)===slot)r.mac=el.value.trim()});saveHistory(rows);saveRoomSettings();renderHistory();toast("MAC qeydi saxlanıldı.")}));loadRoomSettings();const savedRules=getRules();$("#tempLow").value=savedRules.tempLow;$("#tempHigh").value=savedRules.tempHigh;$("#humLow").value=savedRules.humLow;$("#humHigh").value=savedRules.humHigh;$("#enableSound").checked=savedRules.sound!==false;$("#pageTime").textContent="Səhifə açılıb: "+stamp();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderNotificationStatus();updateCount();renderProDashboard();renderAutomation();if(localStorage.getItem("nurlanHomeNightMode")==="1"){document.body.classList.add("night-mode");$("#nightMode").textContent="☀️ Gecə rejimini söndür"}if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const reg=await navigator.serviceWorker.register("./sw.js?v=SMART-HOME-05",{updateViaCache:"none"});await reg.update()}catch(e){console.warn("Service worker yenilənmədi",e)}})}window.addEventListener("resize",renderCharts);
 })();
 
-// JARVIS UI: uses the real locally saved sensor history; no demo readings are generated.
-(function(){const $=id=>document.getElementById(id);const roomNames=["Yataq otağı","Qonaq otağı","Mətbəx"];let selectedRoom="Yataq otağı";let lastAnswer="";function rows(){try{return JSON.parse(localStorage.getItem("nurlanHomeMultiRealReadings")||"[]")}catch(e){return []}}function latest(){const all=rows();return roomNames.map((name,i)=>{const el=document.querySelectorAll(".sensor")[i];const cardText=el?el.innerText:"";const matches=all.filter(r=>String(r.room||"").toLowerCase()===name.toLowerCase()||Number(r.slot)===i);const x=matches.sort((a,b)=>Number(b.time)-Number(a.time))[0];let temp=x&&Number.isFinite(Number(x.temp))?Number(x.temp):null,hum=x&&Number.isFinite(Number(x.hum))?Number(x.hum):null;return {name,temp,hum,time:x?Number(x.time):0,cardText,connected:!!(el&&el.querySelector(".pill.live"))}})}function refresh(){const a=latest(),valid=a.filter(x=>x.temp!==null),temps=valid.map(x=>x.temp),hums=a.filter(x=>x.hum!==null).map(x=>x.hum);a.forEach((x,i)=>{const t=$("jTemp"+(i+1)),h=$("jHum"+(i+1)),st=$("jState"+(i+1));if(t)t.textContent=x.temp===null?"—°":x.temp.toFixed(1)+"°";if(h)h.textContent=x.hum===null?"Rütubət —%":"Rütubət "+Math.round(x.hum)+"%";if(st)st.textContent=x.temp===null?"REAL MƏLUMAT YOXDUR":(x.hum>=70?"RÜTUBƏT YÜKSƏK":x.temp>=27?"OTAQ İSTİDİR":"GÖSTƏRİCİLƏR AKTİVDİR")});$("jActive").textContent=valid.length+" / 3";$("jAvgTemp").textContent=temps.length?(temps.reduce((s,v)=>s+v,0)/temps.length).toFixed(1)+"°":"—°";$("jAvgHum").textContent=hums.length?Math.round(hums.reduce((s,v)=>s+v,0)/hums.length)+"%":"—%";$("jLive").textContent=valid.length?"● "+valid.length+" OTAQDA REAL MƏLUMAT":"● SİSTEM HAZIRDIR";$("jStatusText").textContent=valid.length?"Son saxlanmış ölçmələr tapıldı. Son yenilənmə vaxtı tarixçədən yoxlanıla bilər.":"Hələ lokal tarixçədə oxuna bilən real ölçmə yoxdur. Aşağıdakı BLE panelindən sensorlara qoşul.";const hot=a.filter(x=>x.temp!==null).sort((x,y)=>y.temp-x.temp)[0];$("jInsight").textContent=hot?"Ən isti otaq: "+hot.name+" ("+hot.temp.toFixed(1)+"°C). "+(hums.length?"Orta rütubət "+Math.round(hums.reduce((s,v)=>s+v,0)/hums.length)+"%. ":"")+"Məlumatlar real sensor tarixçəsindən götürülür.":"Sensorlara qoşulandan sonra JARVIS temperatur və rütubəti müqayisə edəcək.";return a}function answer(q){const a=refresh(),v=a.filter(x=>x.temp!==null),low=q.toLowerCase();if(!v.length)return "Hələ saxlanmış real sensor ölçməsi tapmadım. Aşağıdakı BLE sensor panelində Redmi Pad 2-dən sensorlara qoşul, sonra yenidən soruş.";if(low.includes("isti")||low.includes("temperatur")){const x=[...v].sort((a,b)=>b.temp-a.temp)[0];return "Ən isti ölçülən otaq "+x.name+"-dır: "+x.temp.toFixed(1)+"°C."+(v.length>1?" Ən sərin otaq "+[...v].sort((a,b)=>a.temp-b.temp)[0].name+"-dır ("+[...v].sort((a,b)=>a.temp-b.temp)[0].temp.toFixed(1)+"°C).":"")}if(low.includes("rütub")||low.includes("rutub")){const h=a.filter(x=>x.hum!==null);if(!h.length)return "Rütubət göstəricisi tarixçədə yoxdur.";const x=[...h].sort((a,b)=>b.hum-a.hum)[0];return "Ən yüksək rütubət "+x.name+" otağındadır: "+Math.round(x.hum)+"%. "+(x.hum>=70?"Bu səviyyə uzun müddət qalarsa havalandırma və kondensasiya riskini yoxlamaq faydalıdır.":"Tək ölçmə ilə kif riskinə hökm vermək olmaz.")}if(low.includes("məsləh")||low.includes("meslehet")||low.includes("nə edim")||low.includes("ne edim")){const x=[...v].sort((a,b)=>b.temp-a.temp)[0],h=a.filter(z=>z.hum!==null).sort((a,b)=>b.hum-a.hum)[0];let out="İlk növbədə göstəriciləri bir neçə ölçmə ərzində izlə. ";if(x.temp>=27)out+=x.name+" isti görünür; pəncərə/kondisioner vəziyyətini yoxla. ";if(h&&h.hum>=65)out+=h.name+" otağında rütubət yüksəkdir; qısa havalandırma kömək edə bilər. ";return out+"Mən hələ kondisioneri və lampanı avtomatik idarə etmirəm."}return "Hazırda "+v.length+" otaq üçün real temperatur ölçməm var. "+v.map(x=>x.name+": "+x.temp.toFixed(1)+"°C"+(x.hum===null?"":", "+Math.round(x.hum)+"% rütubət")).join("; ")+". Məlumatlar bu brauzerdə saxlanmış tarixçədəndir; mən internetdən və ya evdən kənardan yeni məlumat almıram."}function say(text){if(!("speechSynthesis"in window)){return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="az-AZ";u.rate=.96;speechSynthesis.speak(u)}function send(q){if(!q.trim())return;const chat=$("jChat");const u=document.createElement("div");u.className="j-msg user";u.textContent=q;chat.appendChild(u);const ans=answer(q);lastAnswer=ans;const b=document.createElement("div");b.className="j-msg";b.textContent=ans;chat.appendChild(b);chat.scrollTop=chat.scrollHeight;$("jOrbText").textContent=ans;$("jQuestion").value=""}document.querySelectorAll(".j-room").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".j-room").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedRoom=b.dataset.room;$("jOrbText").textContent=selectedRoom+" seçildi. Köməkçidən bu otaq haqqında soruşa bilərsən.";$("jQuestion").value=selectedRoom+" otağında vəziyyət necədir?"}));$("jAskForm").addEventListener("submit",e=>{e.preventDefault();send($("jQuestion").value)});document.querySelectorAll("[data-jq]").forEach(b=>b.addEventListener("click",()=>send(b.dataset.jq)));$("jSummary").addEventListener("click",()=>send("Evin vəziyyəti necədir?"));$("jRefresh").addEventListener("click",()=>{refresh();$("jOrbText").textContent="Lokal tarixçə yeniləndi."});$("jSpeakSummary").addEventListener("click",()=>say(lastAnswer||answer("Evin vəziyyəti necədir?")));$("jVoice").addEventListener("click",()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$("jOrbText").textContent="Bu brauzerdə səs tanıma dəstəklənmir. Sualı aşağıdakı sahəyə yaza bilərsən.";return}try{const r=new SR();r.lang="az-AZ";r.interimResults=false;$("jOrb").classList.add("listening");$("jOrbText").textContent="Dinləyirəm…";r.onresult=e=>send(e.results[0][0].transcript);r.onerror=()=>{$("jOrbText").textContent="Səs tanınmadı. Sualı yaza bilərsən."};r.onend=()=>$("jOrb").classList.remove("listening");r.start()}catch(e){$("jOrbText").textContent="Səs funksiyası bu brauzerdə aktiv deyil."}});refresh();window.addEventListener("storage",refresh);setInterval(refresh,15000)})();
+// JARVIS UI v2: resilient local analytics based only on recorded sensor readings.
+(function(){
+ const $=id=>document.getElementById(id);
+ const STORE="nurlanHomeMultiRealReadings";
+ let lastAnswer="",selectedRoom="Yataq otağı",busy=false;
+ const roomBtns=()=>[...document.querySelectorAll(".j-room[data-room]")].filter(b=>b.dataset.room!=="Dəhliz");
+ function readRows(){
+  try{
+   const raw=JSON.parse(localStorage.getItem(STORE)||"[]");
+   return Array.isArray(raw)?raw.map(r=>({...r,time:Number(r.time),temp:Number(r.temp),hum:Number(r.hum),slot:Number(r.slot)}))
+    .filter(r=>Number.isFinite(r.time)&&Number.isFinite(r.temp)&&r.temp>-40&&r.temp<85):[];
+  }catch(e){return []}
+ }
+ function cards(){
+  return [...document.querySelectorAll("#sensorCards .sensor")].slice(0,3).map((el,i)=>({
+   slot:i,el,room:el.querySelector(".roomselect")?.value||["Mətbəx","Yataq otağı","Qonaq otağı"][i]
+  }));
+ }
+ function snapshot(){
+  const all=readRows(), now=Date.now();
+  return cards().map(c=>{
+   let own=all.filter(r=>Number.isFinite(r.slot)&&r.slot===c.slot).sort((a,b)=>b.time-a.time);
+   if(!own.length)own=all.filter(r=>String(r.room||"").trim().toLowerCase()===c.room.toLowerCase()).sort((a,b)=>b.time-a.time);
+   const r=own[0]||null;
+   const history=own.slice().sort((a,b)=>a.time-b.time);
+   const age=r?Math.max(0,now-r.time):Infinity;
+   const fresh=age<=30*60*1000;
+   const temp=r&&Number.isFinite(r.temp)?r.temp:null;
+   const hum=r&&Number.isFinite(r.hum)&&r.hum>=0&&r.hum<=100?r.hum:null;
+   const prev=history.length>=4?history.slice(-6,-3):history.slice(0,Math.max(0,history.length-1));
+   const recent=history.slice(-3);
+   const avg=a=>a.length?a.reduce((sum,x)=>sum+x.temp,0)/a.length:null;
+   const delta=prev.length&&recent.length?avg(recent)-avg(prev):null;
+   return {slot:c.slot,room:c.room,temp,hum,time:r?.time||0,age,fresh,history,delta,count:own.length};
+  });
+ }
+ function fmtAge(ms){
+  if(!Number.isFinite(ms))return "ölçmə yoxdur";
+  const min=Math.floor(ms/60000);
+  if(min<1)return "indi";
+  if(min<60)return min+" dəq əvvəl";
+  const h=Math.floor(min/60);
+  return h<24?h+" saat əvvəl":Math.floor(h/24)+" gün əvvəl";
+ }
+ function comfort(x){
+  if(x.temp===null)return {label:"MƏLUMAT YOXDUR",cls:"unknown"};
+  if(x.temp<18)return {label:"SƏRİN",cls:"cool"};
+  if(x.temp>27)return {label:"İSTİ",cls:"hot"};
+  if(x.hum!==null&&x.hum>65)return {label:"RÜTUBƏT YÜKSƏK",cls:"humid"};
+  if(x.hum!==null&&x.hum<30)return {label:"HAVA QURU",cls:"dry"};
+  if(x.temp>=20&&x.temp<=26&&(x.hum===null||(x.hum>=30&&x.hum<=60)))return {label:"RAHAT ZONA",cls:"good"};
+  return {label:"İZLƏNİLMƏLİ",cls:"watch"};
+ }
+ function setOrb(text,state){
+  const t=$("jOrbText");if(t)t.textContent=text;
+  const orb=$("jOrb");if(orb)orb.classList.toggle("thinking",state==="thinking");
+ }
+ function render(){
+  const a=snapshot(),valid=a.filter(x=>x.temp!==null),h=a.filter(x=>x.hum!==null);
+  a.forEach((x,i)=>{
+   const t=$("jTemp"+(i+1)),hu=$("jHum"+(i+1)),st=$("jState"+(i+1));
+   if(t)t.textContent=x.temp===null?"—°":x.temp.toFixed(1)+"°";
+   if(hu)hu.textContent=x.hum===null?"Rütubət —%":"Rütubət "+Math.round(x.hum)+"%";
+   if(st){const c=comfort(x);st.textContent=x.temp===null?"SENSOR GÖZLƏNİLİR":(!x.fresh?"KÖHNƏ ÖLÇMƏ":c.label);st.dataset.state=c.cls;}
+   const btn=roomBtns().find(b=>b.dataset.room===x.room);
+   if(btn){btn.classList.toggle("j-stale",x.temp!==null&&!x.fresh);btn.title=x.temp===null?"Bu otaq üçün saxlanmış ölçmə yoxdur":"Son ölçmə: "+fmtAge(x.age);}
+  });
+  const avg=arr=>arr.length?arr.reduce((s,x)=>s+x,0)/arr.length:null;
+  if($("jActive"))$("jActive").textContent=valid.filter(x=>x.fresh).length+" / 3";
+  if($("jAvgTemp"))$("jAvgTemp").textContent=avg(valid.map(x=>x.temp))===null?"—°":avg(valid.map(x=>x.temp)).toFixed(1)+"°";
+  if($("jAvgHum"))$("jAvgHum").textContent=h.length?Math.round(avg(h.map(x=>x.hum)))+"%":"—%";
+  const live=$("jLive");
+  if(live){live.textContent=valid.length?(valid.filter(x=>x.fresh).length+" / 3 OTAQDA YENİ ÖLÇMƏ"):"● ÖLÇMƏ GÖZLƏNİLİR";live.classList.toggle("j-live-warn",valid.some(x=>!x.fresh));}
+  if($("jStatusText"))$("jStatusText").textContent=valid.length
+   ?valid.length+" otaq üçün lokal tarixçədə məlumat var. "+valid.filter(x=>x.fresh).length+" otağın ölçməsi son 30 dəqiqədə yenilənib. Son məlumat: "+fmtAge(Math.min(...valid.map(x=>x.age)))+"."
+   :"Hələ bu brauzerdə saxlanmış real ölçmə tapılmadı. Əvvəl BLE sensorlarına qoşul və bir neçə ölçmənin qeydə alınmasını gözlə.";
+  const insight=buildInsight(a);
+  if($("jInsight"))$("jInsight").textContent=insight;
+  if($("jActive"))$("jActive").title=valid.filter(x=>x.fresh).length+" təzə ölçmə";
+  return a;
+ }
+ function buildInsight(a){
+  const v=a.filter(x=>x.temp!==null);
+  if(!v.length)return "Analiz üçün real ölçmə lazımdır. Sensorlara qoşulduqdan sonra temperatur, rütubət, otaqlar arası fərq və tarixçə trendi qiymətləndiriləcək.";
+  const out=[];
+  const hottest=[...v].sort((x,y)=>y.temp-x.temp)[0],coldest=[...v].sort((x,y)=>x.temp-y.temp)[0];
+  out.push("Ən isti: "+hottest.room+" "+hottest.temp.toFixed(1)+"°C.");
+  if(v.length>1)out.push("Otaqlar arası fərq: "+(hottest.temp-coldest.temp).toFixed(1)+"°C.");
+  const high=v.filter(x=>x.hum!==null&&x.hum>65),low=v.filter(x=>x.hum!==null&&x.hum<30);
+  if(high.length)out.push("Rütubəti yüksək olan: "+high.map(x=>x.room+" ("+Math.round(x.hum)+"%)").join(", ")+". Uzun müddət davam edərsə havalandırmanı və kondensasiya ehtimalını yoxla.");
+  if(low.length)out.push("Quru hava ehtimalı: "+low.map(x=>x.room+" ("+Math.round(x.hum)+"%)").join(", ")+".");
+  const trending=v.filter(x=>x.delta!==null&&Math.abs(x.delta)>=0.7);
+  if(trending.length)out.push("Son qeydlərdə trend: "+trending.map(x=>x.room+" "+(x.delta>0?"+" : "")+x.delta.toFixed(1)+"°C").join(", ")+".");
+  const stale=v.filter(x=>!x.fresh);
+  if(stale.length)out.push("Köhnə ölçmə: "+stale.map(x=>x.room+" ("+fmtAge(x.age)+")").join(", ")+". Canlı vəziyyət kimi qəbul etmə.");
+  if(!high.length&&!low.length&&v.every(x=>x.hum===null))out.push("Rütubət məlumatı yoxdur; nəticə yalnız temperatur üçündür.");
+  out.push("Bu, lokal qayda əsaslı təhlildir; tibbi/peşəkar ölçmə deyil və cihazları özü idarə etmir.");
+  return out.join(" ");
+ }
+ function answer(q){
+  const a=render(),v=a.filter(x=>x.temp!==null),low=String(q||"").toLocaleLowerCase("az");
+  if(!v.length)return "Hələ real ölçmə tapmadım. BLE panelində sensorlara qoşul, bağlantı aktiv qalsın və ölçmə tarixçəsi yarandıqdan sonra yenidən soruş.";
+  if(low.includes("köhn")||low.includes("yenilən")||low.includes("canlı")||low.includes("neçə dəq")||low.includes("son ölçmə")){
+   return a.map(x=>x.room+": "+(x.temp===null?"ölçmə yoxdur":x.temp.toFixed(1)+"°C"+(x.hum===null?"":", "+Math.round(x.hum)+"%")+", "+fmtAge(x.age)+(x.fresh?" (təzə)":" (köhnə)"))).join("; ")+".";
+  }
+  if(low.includes("trend")||low.includes("dəyiş")||low.includes("artıb")||low.includes("azalıb")||low.includes("tarixçə")){
+   const lines=v.map(x=>x.room+": "+(x.delta===null?"trend üçün kifayət qədər ölçmə yoxdur":(x.delta>0?"orta temperatur yüksəlib ":"orta temperatur düşüb ")+Math.abs(x.delta).toFixed(1)+"°C; "+x.count+" qeyd"));
+   return lines.join(". ")+". Müqayisə son qeydlərlə əvvəlki qeydlər arasındadır, uzunmüddətli proqnoz deyil.";
+  }
+  if(low.includes("rütub")||low.includes("rutub")||low.includes("nəm")||low.includes("nem")){
+   const h=a.filter(x=>x.hum!==null);
+   if(!h.length)return "Tarixçədə oxuna bilən rütubət ölçməsi yoxdur.";
+   return h.map(x=>x.room+": "+Math.round(x.hum)+"% ("+(x.hum>65?"yüksək tərəfdə":x.hum<30?"aşağı tərəfdə":"ümumən orta diapazonda")+")").join("; ")+". Uzunmüddətli yüksək rütubət kondensasiya və kif riskini artıra bilər; tək ölçmə ilə diaqnoz qoymaq olmaz.";
+  }
+  if(low.includes("ən isti")||low.includes("isti otaq")||low.includes("temperatur")||low.includes("istilik")||low.includes("sərin")){
+   const sorted=[...v].sort((x,y)=>x.temp-y.temp),hi=sorted[sorted.length-1],lo=sorted[0];
+   return "Ən isti otaq "+hi.room+" — "+hi.temp.toFixed(1)+"°C"+(v.length>1?"; ən sərin otaq "+lo.room+" — "+lo.temp.toFixed(1)+"°C. Fərq "+(hi.temp-lo.temp).toFixed(1)+"°C-dir. "+(hi.temp>27?"İsti otaqda günəş düşməsi, pəncərə və havalandırmanı yoxlamaq olar.":hi.temp<18?"Otaq sərin görünür; ölçmənin təzəliyini də yoxla.":"Temperatur göstəricisi təkbaşına rahatlıq hissini tam müəyyən etmir.") ;
+  }
+  if(low.includes("məsləh")||low.includes("meslehet")||low.includes("nə edim")||low.includes("ne edim")||low.includes("yaxşılaşdır")||low.includes("rahat")){
+   const tips=[];
+   v.forEach(x=>{if(x.temp>27)tips.push(x.room+": temperatur yüksəkdir ("+x.temp.toFixed(1)+"°C); kölgələnmə və havalandırmanı yoxla.");else if(x.temp<18)tips.push(x.room+": temperatur aşağıdır ("+x.temp.toFixed(1)+"°C); pəncərə/istilik mənbəyini yoxla.");if(x.hum!==null&&x.hum>65)tips.push(x.room+": rütubət "+Math.round(x.hum)+"%-dir; qısa havalandırma və nəm mənbələrini yoxlamaq faydalı ola bilər.");if(x.hum!==null&&x.hum<30)tips.push(x.room+": rütubət aşağıdır ("+Math.round(x.hum)+"%); ölçməni təkrar yoxla.");if(!x.fresh)tips.push(x.room+": ölçmə köhnədir, əvvəl sensoru yenilə.");});
+   return (tips.length?tips.join(" "):"Mövcud göstəricilərdə aydın ekstremal temperatur/rütubət görünmür. Bir neçə ölçmə boyunca izləmək və otaqlar arası fərqi müqayisə etmək daha faydalıdır.")+" Mən hələ kondisioneri, lampanı və digər cihazları avtomatik idarə etmirəm.";
+  }
+  if(low.includes("evin vəziyyət")||low.includes("ümumi")||low.includes("təhlil")||low.includes("analiz")||low.includes("hesabat")||low.includes("xülasə")){
+   return "EVİN SENSOR HESABATI: "+buildInsight(a)+" Ölçməsi olan otaqlar: "+v.length+"/3. Tarixçə sayı: "+v.reduce((s,x)=>s+x.count,0)+".";
+  }
+  if(low.includes("salam"))return "Salam! Mən JARVIS-in lokal analitika moduluyam. Temperatur, rütubət, otaqlar arası fərq, son ölçmələr və trend barədə soruşa bilərsən.";
+  return "Hazırda "+v.length+" otaq üçün real temperatur ölçməsi var. "+v.map(x=>x.room+": "+x.temp.toFixed(1)+"°C"+(x.hum===null?"":", "+Math.round(x.hum)+"% rütubət")+", "+fmtAge(x.age)).join("; ")+". İstəsən soruş: “rütubət necədir?”, “trend necədir?”, “ən isti otaq hansıdır?” və ya “nə məsləhət görürsən?”.";
+ }
+ function say(text){
+  if(!("speechSynthesis" in window)){setOrb("Bu brauzer səsli oxunu dəstəkləmir; mətni ekranda oxuya bilərsən.");return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="az-AZ";u.rate=.94;u.pitch=1.02;
+  const voices=speechSynthesis.getVoices();const az=voices.find(v=>/^az/i.test(v.lang));if(az)u.voice=az;
+  speechSynthesis.speak(u);
+ }
+ function send(q){
+  q=String(q||"").trim();if(!q||busy)return;
+  const chat=$("jChat");if(!chat)return;
+  busy=true;
+  const user=document.createElement("div");user.className="j-msg user";user.textContent=q;chat.appendChild(user);
+  const typing=document.createElement("div");typing.className="j-msg j-typing";typing.textContent="Ölçmələri yoxlayıram…";chat.appendChild(typing);chat.scrollTop=chat.scrollHeight;
+  setOrb("Saxlanmış real ölçmələri, otaqlar arası fərqi və tarixçə trendini yoxlayıram…","thinking");
+  window.setTimeout(()=>{
+   try{lastAnswer=answer(q);typing.classList.remove("j-typing");typing.textContent=lastAnswer;setOrb(lastAnswer); }
+   catch(err){typing.textContent="Analiz zamanı xəta baş verdi. Səhifəni yenilə və yenidən sına.";setOrb("Analiz modulu xəta aldı. Səhifəni yenilə.");console.error("JARVIS:",err);}
+   const input=$("jQuestion");if(input)input.value="";
+   chat.scrollTop=chat.scrollHeight;busy=false;
+  },180);
+ }
+ function init(){
+  const form=$("jAskForm");
+  if(form)form.addEventListener("submit",e=>{e.preventDefault();send($("jQuestion")?.value||"")});
+  document.querySelectorAll("[data-jq]").forEach(b=>b.addEventListener("click",()=>send(b.dataset.jq)));
+  roomBtns().forEach(b=>b.addEventListener("click",()=>{
+   roomBtns().forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedRoom=b.dataset.room;
+   const inp=$("jQuestion");if(inp)inp.value=selectedRoom+" otağında vəziyyət necədir?";
+   setOrb(selectedRoom+" seçildi. Otağın temperaturu, rütubəti və son ölçmə vaxtını soruşa bilərsən.");
+  }));
+  if($("jSummary"))$("jSummary").addEventListener("click",()=>send("Evin vəziyyətini təhlil et"));
+  if($("jRefresh"))$("jRefresh").addEventListener("click",()=>{render();setOrb("Lokal sensor tarixçəsi yeniləndi. "+buildInsight(snapshot()));});
+  if($("jSpeakSummary"))$("jSpeakSummary").addEventListener("click",()=>say(lastAnswer||answer("Evin vəziyyətini təhlil et")));
+  if($("jVoice"))$("jVoice").addEventListener("click",()=>{
+   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+   if(!SR){setOrb("Bu brauzerdə səsdən mətnə çevirmə dəstəklənmir. Sualı yazaraq istifadə et.");return}
+   try{
+    const rec=new SR();rec.lang="az-AZ";rec.interimResults=false;rec.maxAlternatives=1;
+    const orb=$("jOrb");if(orb)orb.classList.add("listening");setOrb("Dinləyirəm… sualını de.");
+    rec.onresult=e=>send(e.results[0][0].transcript);
+    rec.onerror=e=>setOrb("Səs tanınmadı ("+(e.error||"xəta")+"). İcazəni yoxla və ya sualı yaz.");
+    rec.onend=()=>{if(orb)orb.classList.remove("listening")};
+    rec.start();
+   }catch(e){setOrb("Mikrofon açıla bilmədi. Brauzer icazəsini yoxla və sualı yaz.");}
+  });
+  render();window.addEventListener("storage",render);window.setInterval(render,15000);
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
+})();
 
 // HOME TIME MACHINE: temporal playback + transparent change detection on recorded measurements only.
 (function(){const $=id=>document.getElementById(id);let range=24,idx=0,timer=null,events=[];const names=["Yataq otağı","Qonaq otağı","Mətbəx"];function getRows(){try{return JSON.parse(localStorage.getItem("nurlanHomeMultiRealReadings")||"[]").filter(r=>Number.isFinite(Number(r.time))&&Number.isFinite(Number(r.temp))).map(r=>({...r,time:Number(r.time),temp:Number(r.temp),hum:Number(r.hum)})).sort((a,b)=>a.time-b.time)}catch(e){return []}}function within(){const a=getRows();if(range==="all")return a;const cut=Date.now()-range*3600000;return a.filter(x=>x.time>=cut)}function room(r){return r.room||names[Number(r.slot)]||"Naməlum otaq"}function fmt(t){return new Date(t).toLocaleString("az-AZ",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}function draw(){const a=within();$("tmCount").textContent=a.length.toLocaleString("az-AZ");$("tmDataState").textContent=a.length?"● "+a.length+" ÖLÇMƏ TAPILDI":"● TARİXÇƏ GÖZLƏNİLİR";$("tmSlider").max=Math.max(0,a.length-1);idx=Math.min(idx,Math.max(0,a.length-1));$("tmSlider").value=idx;$("tmStart").textContent=a.length?fmt(a[0].time):"Başlanğıc";$("tmEnd").textContent=a.length?fmt(a[a.length-1].time):"Son ölçmə";const distinct=[...new Set(a.map(room))];$("tmRooms").textContent=distinct.length+" / 3";if(a.length){const temps=a.map(x=>x.temp);$("tmSwing").textContent=(Math.max(...temps)-Math.min(...temps)).toFixed(1)+"°C";showPoint()}else{$("tmCursorTemp").textContent="—°C";$("tmCursorDetail").textContent="Hələ real ölçmə yoxdur";$("tmCursorRoom").textContent="Sensorlara qoşul və tarixçə topla.";$("tmSwing").textContent="—";$("tmRoomBars").innerHTML="";$("tmExplain").textContent="Tarixçə boşdur və ya seçilmiş dövrdə ölçmə yoxdur. BLE sensorlarına qoşulandan sonra yenidən yoxla."}if(!events.length)renderEvents([])}function showPoint(){const a=within();if(!a.length)return;idx=Math.max(0,Math.min(idx,a.length-1));const r=a[idx];$("tmCursorTemp").textContent=r.temp.toFixed(1)+"°C";$("tmCursorLabel").textContent=fmt(r.time);$("tmCursorDetail").textContent=Number.isFinite(r.hum)?"Rütubət "+Math.round(r.hum)+"%"+(r.batt?" · Batareya "+r.batt+" mV":""):"Rütubət qeydi yoxdur";$("tmCursorRoom").textContent=room(r)+" · "+(idx+1)+" / "+a.length;const by=names.map(n=>{const rows=a.filter(x=>room(x)===n);return {name:n,avg:rows.length?rows.reduce((s,x)=>s+x.temp,0)/rows.length:null,count:rows.length}});$("tmRoomBars").innerHTML=by.map(x=>'<div class="tm-barrow"><span>'+x.name+'</span><div class="tm-track"><div class="tm-fill" style="width:'+(x.avg===null?0:Math.max(0,Math.min(100,(x.avg+5)/45*100)))+'%"></div></div><b>'+(x.avg===null?"—":x.avg.toFixed(1)+"°")+'</b></div>').join("");}function renderEvents(list){const el=$("tmLog");if(!list.length){el.innerHTML='<div class="tm-event"><small>ANALİZ NƏTİCƏSİ</small>'+(within().length<2?"Müqayisə üçün kifayət qədər ölçmə yoxdur.":"Aşkar edilən ciddi dəyişiklik yoxdur. Bu, problem olmadığına zəmanət vermir.")+'</div>';return}el.innerHTML=list.slice(0,60).map(e=>'<div class="tm-event '+e.level+'"><small>'+fmt(e.time)+' · '+e.room+'</small>'+e.text+'</div>').join("")}function detect(){const a=within();events=[];const groups={};a.forEach(x=>(groups[room(x)]||(groups[room(x)]=[])).push(x));Object.keys(groups).forEach(n=>{const g=groups[n].sort((x,y)=>x.time-y.time);for(let i=1;i<g.length;i++){const p=g[i-1],c=g[i],dt=(c.time-p.time)/60000,dT=c.temp-p.temp,dH=Number.isFinite(c.hum)&&Number.isFinite(p.hum)?c.hum-p.hum:null;if(dt<=0||dt>360)continue;if(Math.abs(dT)>=2)events.push({time:c.time,room:n,level:Math.abs(dT)>=4?"alert":"warn",text:"Temperatur "+(dT>0?"+" :"")+dT.toFixed(1)+"°C dəyişib ("+Math.round(dt)+" dəqiqədə). Bu dəyişiklik sensorun yerinin dəyişməsi, pəncərə, günəş və ya istilik mənbəyi ilə əlaqəli ola bilər; səbəb təsdiqlənməyib."});if(dH!==null&&Math.abs(dH)>=12)events.push({time:c.time,room:n,level:Math.abs(dH)>=20?"alert":"warn",text:"Rütubət "+(dH>0?"+":"")+Math.round(dH)+" faiz bəndi dəyişib. Havalandırma və gündəlik fəaliyyət mümkün izahlardır, lakin sensor məlumatı səbəbi müəyyən etmir."});if(c.batt&&Number(c.batt)<2600)events.push({time:c.time,room:n,level:"warn",text:"Sensor batareyası "+c.batt+" mV göstərir; batareyanı yoxlamaq lazım ola bilər."})}});events.sort((x,y)=>y.time-x.time);$("tmExplain").textContent="Analiz "+a.length+" ölçməni yoxladı. Aşkarlama hədləri: temperaturda ≥2°C, rütubətdə ≥12 faiz bəndi; bunlar diaqnostika deyil, nəzərdən keçirmək üçün işarələrdir.";renderEvents(events)}function stop(){if(timer){clearInterval(timer);timer=null}$("tmPlay").textContent="▶ Tarixi canlandır"}document.querySelectorAll("[data-tm-range]").forEach(b=>b.addEventListener("click",()=>{stop();range=b.dataset.tmRange==="all"?"all":Number(b.dataset.tmRange);idx=0;document.querySelectorAll("[data-tm-range]").forEach(x=>x.classList.toggle("active",x===b));draw()}));$("tmSlider").addEventListener("input",e=>{stop();idx=Number(e.target.value);showPoint()});$("tmPrev").addEventListener("click",()=>{stop();idx=Math.max(0,idx-1);showPoint()});$("tmNext").addEventListener("click",()=>{stop();idx=Math.min(within().length-1,idx+1);showPoint()});$("tmPlay").addEventListener("click",()=>{if(timer){stop();return}if(within().length<2)return; if(idx>=within().length-1)idx=0;$("tmPlay").textContent="Ⅱ Dayandır";timer=setInterval(()=>{const a=within();idx++;if(idx>=a.length){stop();return} $("tmSlider").value=idx;showPoint()},650)});$("tmDetect").addEventListener("click",detect);$("tmExportEvents").addEventListener("click",()=>{if(!events.length)detect();const text="Nurlan Home — Hadisə hesabatı\nYaradılma: "+new Date().toLocaleString("az-AZ")+"\n\n"+(events.length?events.map(e=>fmt(e.time)+" | "+e.room+" | "+e.text).join("\n"):"Seçilmiş dövrdə hadisə aşkarlanmayıb və ya məlumat azdır.");const u=URL.createObjectURL(new Blob([text],{type:"text/plain;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="nurlan-home-hadiseler.txt";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)});window.addEventListener("storage",draw);setInterval(draw,20000);draw()})();
