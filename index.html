@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1224">
 <link rel="manifest" href="./manifest.json">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+window.NURLAN_SUPABASE_URL = "https://xqcmqsajcibywtlmxny.supabase.co";
+window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
+</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="Redmi Pad 2 ilə üç Xiaomi BLE temperatur sensorunu canlı izləmək üçün Nurlan Home.">
 <title>Nurlan Home · BLE Multi Sensor</title>
@@ -268,12 +273,62 @@
    if(status)status.textContent="getDevices(): "+devices.length+" icazəli cihaz; "+matched+" saxlanmış sensor uyğun gəldi. "+(matched?"Avtomatik qoşulma başladılır.": "Uyğun sensor tapılmadı; diaqnostika nəticələrinə bax.");
   }catch(e){if(status)status.textContent="getDevices() xətası: "+(e.name||"Xəta")+" — "+(e.message||"detal yoxdur");console.warn("BLE auto-restore unavailable",e)}
  }
+
+ // Cloud history: public read/insert policies are configured in Supabase.
+ const cloudClient = (window.supabase && window.supabase.createClient)
+   ? window.supabase.createClient(window.NURLAN_SUPABASE_URL, window.NURLAN_SUPABASE_KEY)
+   : null;
+ const cloudLastSent = [0,0,0];
+ const cloudStatus = document.createElement("div");
+ cloudStatus.className = "statusbox";
+ cloudStatus.innerHTML = '<span class="statusdot" id="cloudDot"></span><div><strong id="cloudStatusTitle">☁️ Bulud tarixçəsi hazırlanır…</strong><p id="cloudStatusDetail">Sensor ölçmələri Supabase ilə sinxronlaşdırılacaq.</p></div>';
+ const bleSection = document.getElementById("sensorCards");
+ if (bleSection && bleSection.parentNode && !document.getElementById("cloudStatusTitle")) bleSection.parentNode.insertBefore(cloudStatus, bleSection.nextSibling);
+ function setCloudStatus(ok,title,detail){
+   const t=document.getElementById("cloudStatusTitle"),d=document.getElementById("cloudStatusDetail"),dot=document.getElementById("cloudDot");
+   if(t)t.textContent=title;if(d)d.textContent=detail;if(dot)dot.style.background=ok?"var(--mint)":"var(--orange)";
+ }
+ async function sendCloudReading(row){
+   if(!cloudClient)return;
+   const now=Date.now(),slot=Number(row.slot);
+   if(!Number.isInteger(slot)||slot<0||slot>2||now-cloudLastSent[slot]<300000)return;
+   cloudLastSent[slot]=now;
+   const payload={room:row.room,temperature:Number(row.temp),humidity:Number(row.hum),battery_mv:Number(row.batt),recorded_at:new Date(row.time).toISOString()};
+   const {error}=await cloudClient.from("sensor_readings").insert(payload);
+   if(error){setCloudStatus(false,"☁️ Bulud yazılışı alınmadı",error.message);cloudLastSent[slot]=0;return;}
+   setCloudStatus(true,"☁️ Buludla əlaqə var","Son ölçmə bazaya göndərildi. Hər sensor üçün təxminən 5 dəqiqədə bir qeyd saxlanılır.");
+ }
+ async function loadCloudReadings(){
+   if(!cloudClient)return;
+   const {data,error}=await cloudClient.from("sensor_readings").select("room,temperature,humidity,battery_mv,recorded_at").order("recorded_at",{ascending:false}).limit(1000);
+   if(error){setCloudStatus(false,"☁️ Bulud oxunuşu alınmadı",error.message);return;}
+   const existing=historyRows();
+   const seen=new Set(existing.map(r=>[r.room,new Date(r.time).getTime(),Number(r.temp).toFixed(2),Number(r.hum).toFixed(2)].join("|")));
+   let added=0;
+   for(const x of (data||[]).reverse()){
+     const time=new Date(x.recorded_at).toISOString();
+     const key=[x.room,new Date(time).getTime(),Number(x.temperature).toFixed(2),Number(x.humidity).toFixed(2)].join("|");
+     if(seen.has(key))continue;
+     const slot=({"Mətbəx":0,"Yataq otağı":1,"Qonaq otağı":2})[x.room];
+     existing.push({time,slot,device:"Supabase cloud",room:x.room,temp:Number(x.temperature),hum:Number(x.humidity),batt:Number(x.battery_mv||0),cloud:true});
+     seen.add(key);added++;
+   }
+   if(added){
+     existing.sort((a,b)=>new Date(a.time)-new Date(b.time));
+     saveHistory(existing);
+     renderHistory();renderCharts();renderMetrics();renderRoomStats();renderStorageInfo();renderProDashboard();
+   }
+   setCloudStatus(true,"☁️ Buludla əlaqə var",(data||[]).length+" bulud qeydi oxundu"+(added?" · "+added+" yeni qeyd sinxronlaşdırıldı":"")+".");
+ }
+ if(cloudClient){loadCloudReadings();window.setInterval(loadCloudReadings,30000);}
+
  function showValue(slot,device,value){
   if(!value||value.byteLength<5){$("#seen"+slot).textContent="Sensor məlumat paketi uyğun deyil";return}
   const temp=value.getInt16(0,true)/100,hum=value.getUint8(2),batt=value.getUint16(3,true),date=new Date();
   $("#temp"+slot).innerHTML=temp.toFixed(2)+'<small> °C</small>';$("#hum"+slot).textContent=hum+"%";$("#batt"+slot).textContent=batt+" mV";$("#seen"+slot).textContent="Son ölçmə: "+date.toLocaleTimeString("az-AZ");$("#pill"+slot).textContent="CANLI";$("#pill"+slot).classList.add("live");
   const room=document.querySelector('[data-slot="'+slot+'"] .roomselect').value;
   const mac=$("#mac"+slot).value.trim();const rows=historyRows();rows.push({time:date.toISOString(),slot,device:device.name||"LYWSD03MMC",mac,room,temp,hum,batt});saveHistory(rows);renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderProDashboard();checkAutomationReading({room,temp,hum,batt,slot});
+   sendCloudReading({time:date.toISOString(),slot,device:device.name||"LYWSD03MMC",mac,room,temp,hum,batt});
  }
  document.querySelectorAll(".connect").forEach(b=>b.addEventListener("click",()=>{const slot=Number(b.dataset.slot);if(connections[slot]){disconnectSlot(slot);b.textContent="Sensor seç və qoş";b.classList.add("primary");b.onclick=null}else{reconnectEnabled[slot]=true;connectSlot(slot)}}));
  $("#connectNext").addEventListener("click",()=>{const slot=connections.findIndex(c=>!c);if(slot<0){toast("Üç kartın hamısı qoşulub.");return}connectSlot(slot)});
