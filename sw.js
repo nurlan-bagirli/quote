@@ -1,4 +1,4 @@
-const CACHE="nurlan-home-shell-v2";
+const CACHE="nurlan-home-shell-v3";
 const SHELL=["./","./index.html","./manifest.json"];
 self.addEventListener("install",event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).catch(()=>{}));self.skipWaiting()});
 self.addEventListener("activate",event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("nurlan-home-shell-")&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
@@ -6,7 +6,7 @@ self.addEventListener("fetch",event=>{
   if(event.request.method!=="GET"||new URL(event.request.url).origin!==self.location.origin)return;
   const requestURL=new URL(event.request.url);
   if(event.request.mode==="navigate"||requestURL.pathname.endsWith("/index.html")||requestURL.pathname.endsWith("/")){
-    event.respondWith(fetch(event.request,{cache:"no-store"}).then(response=>{
+    event.respondWith(fetch(event.request,{cache:"no-store",headers:new Headers(event.request.headers)}).then(response=>{
       if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));}
       return response;
     }).catch(()=>caches.match(event.request).then(cached=>cached||caches.match("./index.html"))));
