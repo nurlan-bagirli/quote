@@ -78,7 +78,7 @@
 
 <header>
  <div class="brand"><div class="logo">N</div><div><h1>NURLAN HOME</h1><p>Redmi Pad 2 · Xiaomi BLE sensor paneli</p></div></div>
- <div class="version">SON VERSİYA · SMART-HOME-07 · 11.10.2026</div>
+ <div class="version">SON VERSİYA · SMART-HOME-08 · 11.10.2026</div>
 </header>
 <section class="intro">
  <div class="eyebrow">CANLI SENSOR MONİTORİNQİ</div>
@@ -112,7 +112,7 @@
  <article><b>② Digər ikisi</b><p>İkinci və üçüncü kartda eyni addımı təkrarla. Əvvəlki sensorun bağlantısını kəsmək lazım deyil.</p></article>
  <article><b>③ Redmi Pad 2 açıq qalsın</b><p>Canlı məlumat üçün bu səhifəni Chrome-da açıq saxla. Brauzer bağlansa və ya planşet yuxuya getsə, ölçmələr dayana bilər.</p></article>
 </section>
-<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-07 · JARVIS analitika və interfeys yenilənməsi</span><span id="pageTime">Səhifə açılıb: —</span></footer>
+<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-08 · JARVIS sintaksis düzəlişi və BLE düymələri</span><span id="pageTime">Səhifə açılıb: —</span></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -346,7 +346,7 @@
   }
   if(low.includes("ən isti")||low.includes("isti otaq")||low.includes("temperatur")||low.includes("istilik")||low.includes("sərin")){
    const sorted=[...v].sort((x,y)=>x.temp-y.temp),hi=sorted[sorted.length-1],lo=sorted[0];
-   return "Ən isti otaq "+hi.room+" — "+hi.temp.toFixed(1)+"°C"+(v.length>1?"; ən sərin otaq "+lo.room+" — "+lo.temp.toFixed(1)+"°C. Fərq "+(hi.temp-lo.temp).toFixed(1)+"°C-dir. "+(hi.temp>27?"İsti otaqda günəş düşməsi, pəncərə və havalandırmanı yoxlamaq olar.":hi.temp<18?"Otaq sərin görünür; ölçmənin təzəliyini də yoxla.":"Temperatur göstəricisi təkbaşına rahatlıq hissini tam müəyyən etmir.") ;
+   return "Ən isti otaq "+hi.room+" — "+hi.temp.toFixed(1)+"°C"+(v.length>1?"; ən sərin otaq "+lo.room+" — "+lo.temp.toFixed(1)+"°C. Fərq "+(hi.temp-lo.temp).toFixed(1)+"°C-dir. "+(hi.temp>27?"İsti otaqda günəş düşməsi, pəncərə və havalandırmanı yoxlamaq olar.":hi.temp<18?"Otaq sərin görünür; ölçmənin təzəliyini də yoxla.":"Temperatur göstəricisi təkbaşına rahatlıq hissini tam müəyyən etmir.")) ;
   }
   if(low.includes("məsləh")||low.includes("meslehet")||low.includes("nə edim")||low.includes("ne edim")||low.includes("yaxşılaşdır")||low.includes("rahat")){
    const tips=[];
