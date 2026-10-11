@@ -291,12 +291,12 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
  async function sendCloudReading(row){
    if(!cloudClient)return;
    const now=Date.now(),slot=Number(row.slot);
-   if(!Number.isInteger(slot)||slot<0||slot>2||now-cloudLastSent[slot]<300000)return;
+   if(!Number.isInteger(slot)||slot<0||slot>2||now-cloudLastSent[slot]<5000)return;
    cloudLastSent[slot]=now;
    const payload={room:row.room,temperature:Number(row.temp),humidity:Number(row.hum),battery_mv:Number(row.batt),recorded_at:new Date(row.time).toISOString()};
    const {error}=await cloudClient.from("sensor_readings").insert(payload);
    if(error){setCloudStatus(false,"☁️ Bulud yazılışı alınmadı",error.message);cloudLastSent[slot]=0;return;}
-   setCloudStatus(true,"☁️ Buludla əlaqə var","Son ölçmə bazaya göndərildi. Hər sensor üçün təxminən 5 dəqiqədə bir qeyd saxlanılır.");
+   setCloudStatus(true,"☁️ Buludla əlaqə var","Yeni sensor ölçməsi buluda göndərildi. Yeni ölçmə gəldikdə ən azı 5 saniyə ara ilə yazılır.");
  }
  function cloudSlotForRoom(room){
    const normalized=String(room||"").trim().toLocaleLowerCase("az");
@@ -305,6 +305,25 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
    if(found>=0)return found;
    const fallback={"mətbəx":0,"yataq otağı":1,"qonaq otağı":2};
    return Object.prototype.hasOwnProperty.call(fallback,normalized)?fallback[normalized]:-1;
+ }
+ function renderCloudLatestToCards(){
+   const rows=historyRows();
+   const fallback={"mətbəx":0,"yataq otağı":1,"qonaq otağı":2};
+   const selectors=[...document.querySelectorAll(".roomselect")];
+   for(let slot=0;slot<3;slot++){
+     const cardRoom=String(selectors[slot]?.value||"").trim();
+     const latest=rows.filter(r=>String(r.room||"").trim().toLocaleLowerCase("az")===cardRoom.toLocaleLowerCase("az")&&Number.isFinite(new Date(r.time).getTime())).sort((a,b)=>new Date(b.time)-new Date(a.time))[0];
+     if(!latest)continue;
+     const liveText=document.getElementById("pill"+slot)?.textContent||"";
+     const isLive=liveText==="CANLI";
+     if(isLive)continue; // Never overwrite fresh BLE readings with older cloud values.
+     const temp=document.getElementById("temp"+slot),hum=document.getElementById("hum"+slot),batt=document.getElementById("batt"+slot),seen=document.getElementById("seen"+slot),pill=document.getElementById("pill"+slot);
+     if(temp)temp.innerHTML=Number(latest.temp).toFixed(2)+'<small> °C</small>';
+     if(hum)hum.textContent=Number(latest.hum)+'%';
+     if(batt)batt.textContent=(Number(latest.batt)||0)+' mV';
+     if(seen)seen.textContent="Bulud ölçməsi: "+new Date(latest.time).toLocaleTimeString("az-AZ");
+     if(pill){pill.textContent="BULUD";pill.classList.remove("live");}
+   }
  }
  async function loadCloudReadings(){
    if(!cloudClient)return;
@@ -331,11 +350,11 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
      existing.sort((a,b)=>new Date(a.time)-new Date(b.time));
      saveHistory(existing);
    }
-   renderHistory();renderCharts();renderMetrics();renderRoomStats();renderStorageInfo();renderProDashboard();renderAlerts();
+   renderHistory();renderCharts();renderMetrics();renderRoomStats();renderStorageInfo();renderProDashboard();renderAlerts();renderCloudLatestToCards();
    const unmappedText=unmapped?" · "+unmapped+" qeydin otağı sensor kartına uyğunlaşdırılmayıb":"";
    setCloudStatus(true,"☁️ Buludla əlaqə var",(data||[]).length+" bulud qeydi oxundu"+(added?" · "+added+" yeni qeyd sinxronlaşdırıldı":" · yeni qeyd yoxdur")+unmappedText+". Qrafiklər seçilmiş dövrü göstərir.");
  }
- if(cloudClient){loadCloudReadings();window.setInterval(loadCloudReadings,30000);}
+ if(cloudClient){loadCloudReadings();window.setInterval(loadCloudReadings,5000);}
 
  function showValue(slot,device,value){
   if(!value||value.byteLength<5){$("#seen"+slot).textContent="Sensor məlumat paketi uyğun deyil";return}
