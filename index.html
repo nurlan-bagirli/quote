@@ -152,13 +152,14 @@
   const old=connections[slot];if(old){toast("Bu kartda sensor artıq qoşulub. Əvvəl əlaqəni kəs.");return}
   const button=document.querySelector('.connect[data-slot="'+slot+'"]');button.disabled=true;button.textContent="Sensor seçilir…";
   try{
-   const device=await navigator.bluetooth.requestDevice({filters:[{namePrefix:"LYWSD03MMC"}],optionalServices:[SERVICE]});
+   const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SERVICE]});
    // If the same device is already assigned to another card, avoid duplicate GATT sessions.
    const duplicate=connections.findIndex((c,i)=>c&&c.device.id===device.id&&i!==slot);
    if(duplicate!==-1){throw new Error("Bu sensor artıq "+(duplicate+1)+"-ci kartda qoşulub. Başqa sensor seç.")}
-   $("#device"+slot).textContent=(device.name||"LYWSD03MMC")+" · bağlantı qurulur…";
+   $("#device"+slot).textContent=(device.name||"Naməlum BLE cihazı")+" · uyğunluq yoxlanılır…";
    const server=await device.gatt.connect();
-   const service=await server.getPrimaryService(SERVICE);
+   let service;
+   try{service=await server.getPrimaryService(SERVICE)}catch(serviceError){try{device.gatt.disconnect()}catch(ignore){}throw new Error("Seçilən cihaz Xiaomi LYWSD03MMC sensoru deyil və ya uyğun xidmət təqdim etmir. Siyahıdan LYWSD03MMC sensorunu seç.")}
    const characteristic=await service.getCharacteristic(CHAR);
    const handler=e=>showValue(slot,device,e.target.value);
    characteristic.addEventListener("characteristicvaluechanged",handler);
