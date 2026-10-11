@@ -298,27 +298,42 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
    if(error){setCloudStatus(false,"☁️ Bulud yazılışı alınmadı",error.message);cloudLastSent[slot]=0;return;}
    setCloudStatus(true,"☁️ Buludla əlaqə var","Son ölçmə bazaya göndərildi. Hər sensor üçün təxminən 5 dəqiqədə bir qeyd saxlanılır.");
  }
+ function cloudSlotForRoom(room){
+   const normalized=String(room||"").trim().toLocaleLowerCase("az");
+   const selectors=[...document.querySelectorAll(".roomselect")];
+   const found=selectors.findIndex(el=>String(el.value||"").trim().toLocaleLowerCase("az")===normalized);
+   if(found>=0)return found;
+   const fallback={"mətbəx":0,"yataq otağı":1,"qonaq otağı":2};
+   return Object.prototype.hasOwnProperty.call(fallback,normalized)?fallback[normalized]:-1;
+ }
  async function loadCloudReadings(){
    if(!cloudClient)return;
    const {data,error}=await cloudClient.from("sensor_readings").select("room,temperature,humidity,battery_mv,recorded_at").order("recorded_at",{ascending:false}).limit(1000);
    if(error){setCloudStatus(false,"☁️ Bulud oxunuşu alınmadı",error.message);return;}
    const existing=historyRows();
-   const seen=new Set(existing.map(r=>[r.room,new Date(r.time).getTime(),Number(r.temp).toFixed(2),Number(r.hum).toFixed(2)].join("|")));
-   let added=0;
-   for(const x of (data||[]).reverse()){
-     const time=new Date(x.recorded_at).toISOString();
-     const key=[x.room,new Date(time).getTime(),Number(x.temperature).toFixed(2),Number(x.humidity).toFixed(2)].join("|");
+   const seen=new Set(existing.map(r=>[String(r.room||"").trim().toLocaleLowerCase("az"),new Date(r.time).getTime(),Number(r.temp).toFixed(2),Number(r.hum).toFixed(2)].join("|")));
+   let added=0,unmapped=0;
+   for(const x of (data||[]).slice().reverse()){
+     const parsedTime=new Date(x.recorded_at);
+     if(!Number.isFinite(parsedTime.getTime()))continue;
+     const time=parsedTime.toISOString();
+     const room=String(x.room||"").trim();
+     const temperature=Number(x.temperature),humidity=Number(x.humidity);
+     if(!room||!Number.isFinite(temperature)||!Number.isFinite(humidity))continue;
+     const key=[room.toLocaleLowerCase("az"),parsedTime.getTime(),temperature.toFixed(2),humidity.toFixed(2)].join("|");
      if(seen.has(key))continue;
-     const slot=({"Mətbəx":0,"Yataq otağı":1,"Qonaq otağı":2})[x.room];
-     existing.push({time,slot,device:"Supabase cloud",room:x.room,temp:Number(x.temperature),hum:Number(x.humidity),batt:Number(x.battery_mv||0),cloud:true});
+     const slot=cloudSlotForRoom(room);
+     if(slot<0)unmapped++;
+     existing.push({time,slot,device:"Supabase cloud",room,temp:temperature,hum:humidity,batt:Number(x.battery_mv||0),cloud:true});
      seen.add(key);added++;
    }
    if(added){
      existing.sort((a,b)=>new Date(a.time)-new Date(b.time));
      saveHistory(existing);
-     renderHistory();renderCharts();renderMetrics();renderRoomStats();renderStorageInfo();renderProDashboard();
    }
-   setCloudStatus(true,"☁️ Buludla əlaqə var",(data||[]).length+" bulud qeydi oxundu"+(added?" · "+added+" yeni qeyd sinxronlaşdırıldı":"")+".");
+   renderHistory();renderCharts();renderMetrics();renderRoomStats();renderStorageInfo();renderProDashboard();renderAlerts();
+   const unmappedText=unmapped?" · "+unmapped+" qeydin otağı sensor kartına uyğunlaşdırılmayıb":"";
+   setCloudStatus(true,"☁️ Buludla əlaqə var",(data||[]).length+" bulud qeydi oxundu"+(added?" · "+added+" yeni qeyd sinxronlaşdırıldı":" · yeni qeyd yoxdur")+unmappedText+". Qrafiklər seçilmiş dövrü göstərir.");
  }
  if(cloudClient){loadCloudReadings();window.setInterval(loadCloudReadings,30000);}
 
