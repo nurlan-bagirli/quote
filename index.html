@@ -62,7 +62,7 @@
 @media(max-width:540px){.release-strip{gap:7px;padding:9px 8px;font-size:9px}.release-name{width:100%;text-align:center;order:4}}
 
 
-/* SMART-HOME-14: room comparison filters, safer alerts and storage guard */
+/* SMART-HOME-15: room comparison filters, safer alerts and storage guard */
 .j-scene{min-height:350px}
 .j-floor{position:absolute;inset:54px 18px 30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:10px;transform:none!important;filter:none!important}
 .j-room{transform:none!important;min-height:0;border-radius:15px!important;clip-path:none!important}
@@ -79,10 +79,11 @@
 .room-filter input{accent-color:var(--mint)}
 .room-filter i,.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle}
 
+.ble-diagnostics{border:1px solid #36506c;background:linear-gradient(145deg,#14243a,#0f1b2d);border-radius:16px;padding:15px;margin:0 0 20px}.ble-diagnostics h3{font-size:15px;margin:0 0 4px}.ble-diagnostics p{font-size:11px;color:var(--muted);margin:0 0 10px}.ble-diagnostics pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#091426;border:1px solid #263c57;border-radius:11px;padding:12px;font:12px/1.65 ui-monospace,monospace;color:#d9f7ff;margin:12px 0}.ble-diagnostics .ble-diagnostic-note{margin:0;font-size:10px}
 </style>
 </head>
 <body>
-<div class="release-strip" role="status" aria-label="Sayt versiyası"><span class="release-brand">NURLAN HOME</span><span class="release-name">OTAQ MÜQAYİSƏSİ · XƏBƏRDARLIQ · YADDAŞ QORUNMASI</span><span class="release-version">SMART-HOME-14</span><time datetime="2026-10-11">11.10.2026</time></div>
+<div class="release-strip" role="status" aria-label="Sayt versiyası"><span class="release-brand">NURLAN HOME</span><span class="release-name">OTAQ MÜQAYİSƏSİ · XƏBƏRDARLIQ · YADDAŞ QORUNMASI</span><span class="release-version">SMART-HOME-15</span><time datetime="2026-10-11">11.10.2026</time></div>
 <div class="wrap">
 <section class="tm" id="homeTimeMachine"><div class="tm-head"><div><div class="tm-tag">NURLAN HOME / TEMPORAL INTELLIGENCE</div><h2>⏳ Evin zaman maşını</h2><p>Öz evinin sensor tarixçəsində gəz, hadisələri tap və “niyə dəyişdi?” sualına mümkün izahlar al. Uydurma məlumat yox — yalnız saxlanmış ölçmələr.</p></div><span class="tm-badge" id="tmDataState">● TARİXÇƏ GÖZLƏNİLİR</span></div>
 <div class="tm-grid"><div class="tm-panel"><h3>◈ Zaman xətti</h3><div class="tm-controls"><button class="tm-btn active" data-tm-range="24">Son 24 saat</button><button class="tm-btn" data-tm-range="72">Son 3 gün</button><button class="tm-btn" data-tm-range="168">Son 7 gün</button><button class="tm-btn" data-tm-range="all">Bütün tarixçə</button></div><div class="tm-stage"><div style="font-size:10px;color:#86a9c6;letter-spacing:1.8px" id="tmCursorLabel">TARİXÇƏDƏN NÖQTƏ SEÇ</div><div class="tm-big" id="tmCursorTemp">—°C</div><p id="tmCursorDetail">Hələ real ölçmə seçilməyib</p><p id="tmCursorRoom"></p></div><div class="tm-time"><span id="tmStart">Başlanğıc</span><span id="tmEnd">Son ölçmə</span></div><input class="tm-range" id="tmSlider" type="range" min="0" max="0" value="0" aria-label="Tarixçə zaman xətti"><div class="tm-controls"><button class="tm-btn" id="tmPrev">← Əvvəlki</button><button class="tm-btn primary" id="tmPlay">▶ Tarixi canlandır</button><button class="tm-btn" id="tmNext">Sonrakı →</button></div><div class="tm-bars" id="tmRoomBars"></div></div>
@@ -105,7 +106,7 @@
 
 <header>
  <div class="brand"><div class="logo">N</div><div><h1>NURLAN HOME</h1><p>Redmi Pad 2 · Xiaomi BLE sensor paneli</p></div></div>
- <div class="version">SON VERSİYA · SMART-HOME-14 · 11.10.2026</div>
+ <div class="version">SON VERSİYA · SMART-HOME-15 · 11.10.2026</div>
 </header>
 <section class="intro">
  <div class="eyebrow">CANLI SENSOR MONİTORİNQİ</div>
@@ -114,6 +115,7 @@
  <div class="actions"><button class="btn primary" id="connectNext">＋ Növbəti sensoru qoş</button><button class="btn" id="disconnectAll">■ Bütün əlaqələri kəs</button><button class="btn" id="exportBtn">⇩ CSV ixracı</button><button class="btn" id="backupBtn">⤓ JSON ehtiyat nüsxəsi</button><button class="btn" id="importBtn">⤒ Bərpa et</button><input id="importFile" type="file" accept=".json,application/json" hidden></div>
 </section>
 <div class="statusbox"><span class="statusdot" id="mainDot"></span><div><strong id="mainStatus">Hazırdır · heç bir sensor qoşulmayıb</strong><p id="mainDetail">Sensorları aşağıdakı kartlardan bir-bir qoş. Hər seçim üçün Bluetooth icazəsi açılacaq.</p></div></div>
+<section class="ble-diagnostics" aria-labelledby="bleDiagTitle"><div><h3 id="bleDiagTitle">🧪 Bluetooth diaqnostikası · SMART-HOME-15</h3><p>Avtomatik qoşulmanın niyə işləmədiyini yoxlayır. Bu bölmə mövcud sensor bağlantılarını kəsmir və heç bir tarixçəni silmir.</p></div><button class="btn" id="bleDiagButton" type="button">Diaqnostika et və yenidən yoxla</button><pre id="bleDiagResult" aria-live="polite">Brauzer və icazə vəziyyəti yoxlanılır…</pre><p class="ble-diagnostic-note">Əgər getDevices() dəstəklənmirsə, bu sayt təkbaşına səhifə yenilənəndən sonra sensoru bərpa edə bilməz. Bu, kodun deyil, brauzer API-sinin məhdudiyyəti ola bilər.</p></section>
 <div class="sectionhead"><div><h3>Sensor otaqları</h3><p>Hər kartda “Sensor seç və qoş” düyməsinə bas. Mövcud bağlantılar saxlanılır.</p></div><span id="connectedCount" style="font-size:12px;color:var(--muted)">0 / 3 qoşulub</span></div>
 <section class="cards" id="sensorCards">
  <article class="sensor" data-slot="0"><div class="sensortop"><div class="roomicon">🍋</div><span class="pill" id="pill0">Qoşulmayıb</span></div><select class="roomselect" aria-label="Birinci sensorun otağı"><option>Mətbəx</option><option>Yataq otağı</option><option>Qonaq otağı</option><option>Digər otaq</option></select><div class="device" id="device0">Sensor hələ seçilməyib</div><div class="macbox"><label for="mac0">MAC ünvanı · əl ilə qeyd (brauzer oxumur)</label><input id="mac0" value="A4:C1:38:B4:D0:E2" inputmode="text" autocomplete="off" spellcheck="false"></div><div class="temp" id="temp0">—<small> °C</small></div><div class="stats"><div class="stat"><span>💧 Rütubət</span><b id="hum0">— %</b></div><div class="stat"><span>🔋 Batareya</span><b id="batt0">— mV</b></div></div><div class="footline"><span id="seen0">Ölçmə yoxdur</span><span>Sensor 1</span></div><button class="btn primary connect" data-slot="0">Sensor seç və qoş</button></article>
@@ -139,7 +141,7 @@
  <article><b>② Digər ikisi</b><p>İkinci və üçüncü kartda eyni addımı təkrarla. Əvvəlki sensorun bağlantısını kəsmək lazım deyil.</p></article>
  <article><b>③ Redmi Pad 2 açıq qalsın</b><p>Canlı məlumat üçün bu səhifəni Chrome-da açıq saxla. Brauzer bağlansa və ya planşet yuxuya getsə, ölçmələr dayana bilər.</p></article>
 </section>
-<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-14 · Avtomatik BLE yenidən qoşulma · JS sintaksisi yoxlanılıb</span><span id="pageTime">Səhifə açılıb: —</span></footer>
+<footer class="footer"><span>© 2026 Nurlan Home</span><span>Versiya: SMART-HOME-15 · Avtomatik BLE yenidən qoşulma · JS sintaksisi yoxlanılıb</span><span id="pageTime">Səhifə açılıb: —</span></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -243,7 +245,23 @@
   }finally{if(!connections[slot]){button.disabled=false;button.textContent="Sensor seç və qoş"}}
  }
  function scheduleReconnect(slot,device){if(!reconnectEnabled[slot]||connections[slot]||reconnectTimers[slot])return;const delay=Math.min(30000,2000*Math.pow(2,Math.min(reconnectAttempts[slot],4)));reconnectAttempts[slot]++;$("#seen"+slot).textContent="Avtomatik yenidən qoşulma cəhdi · "+Math.round(delay/1000)+" san.";reconnectTimers[slot]=setTimeout(()=>{reconnectTimers[slot]=null;if(reconnectEnabled[slot]&&!connections[slot])connectSlot(slot,device,true)},delay)}
- async function restoreKnownDevices(){if(!navigator.bluetooth||typeof navigator.bluetooth.getDevices!=="function")return;try{const map=readDeviceSlots(),devices=await navigator.bluetooth.getDevices();for(let slot=0;slot<3;slot++){if(connections[slot])continue;const id=map[String(slot)];if(!id)continue;const device=devices.find(d=>d.id===id);if(device){reconnectEnabled[slot]=true;$("#seen"+slot).textContent="Əvvəl icazə verilmiş sensor tapıldı · qoşuluram…";connectSlot(slot,device,true)}}}catch(e){console.warn("BLE auto-restore unavailable",e)}}
+ async function restoreKnownDevices(){
+  const status=$("#bleDiagResult");
+  if(!navigator.bluetooth){if(status)status.textContent="Web Bluetooth API yoxdur. HTTPS və Chrome kimi uyğun brauzer tələb olunur.";return}
+  if(typeof navigator.bluetooth.getDevices!=="function"){if(status)status.textContent="Bu brauzer versiyasında getDevices() yoxdur. Sayt əvvəl icazə verilmiş sensorları səhifə yenilənəndən sonra özü tapa bilmir; əl ilə qoşulma işləməlidir.";return}
+  try{
+   const map=readDeviceSlots(),devices=await navigator.bluetooth.getDevices();
+   let matched=0;
+   for(let slot=0;slot<3;slot++){
+    if(connections[slot])continue;
+    const id=map[String(slot)];if(!id)continue;
+    const device=devices.find(d=>d.id===id);
+    if(device){matched++;reconnectEnabled[slot]=true;$("#seen"+slot).textContent="Əvvəl icazə verilmiş sensor tapıldı · qoşuluram…";connectSlot(slot,device,true)}
+    else if($("#seen"+slot))$("#seen"+slot).textContent="Yadda saxlanmış icazə bu brauzerdə tapılmadı";
+   }
+   if(status)status.textContent="getDevices(): "+devices.length+" icazəli cihaz; "+matched+" saxlanmış sensor uyğun gəldi. "+(matched?"Avtomatik qoşulma başladılır.": "Uyğun sensor tapılmadı; diaqnostika nəticələrinə bax.");
+  }catch(e){if(status)status.textContent="getDevices() xətası: "+(e.name||"Xəta")+" — "+(e.message||"detal yoxdur");console.warn("BLE auto-restore unavailable",e)}
+ }
  function showValue(slot,device,value){
   if(!value||value.byteLength<5){$("#seen"+slot).textContent="Sensor məlumat paketi uyğun deyil";return}
   const temp=value.getInt16(0,true)/100,hum=value.getUint8(2),batt=value.getUint16(3,true),date=new Date();
@@ -254,7 +272,19 @@
  document.querySelectorAll(".connect").forEach(b=>b.addEventListener("click",()=>{const slot=Number(b.dataset.slot);if(connections[slot]){disconnectSlot(slot);b.textContent="Sensor seç və qoş";b.classList.add("primary");b.onclick=null}else{reconnectEnabled[slot]=true;connectSlot(slot)}}));
  $("#connectNext").addEventListener("click",()=>{const slot=connections.findIndex(c=>!c);if(slot<0){toast("Üç kartın hamısı qoşulub.");return}connectSlot(slot)});
  $("#disconnectAll").addEventListener("click",()=>{connections.forEach((c,i)=>{reconnectEnabled[i]=false;if(reconnectTimers[i]){clearTimeout(reconnectTimers[i]);reconnectTimers[i]=null}if(c)disconnectSlot(i)});document.querySelectorAll(".connect").forEach(b=>{b.disabled=false;b.textContent="Sensor seç və qoş";b.classList.add("primary")});toast("Bütün Bluetooth əlaqələri kəsildi.")});
- setTimeout(restoreKnownDevices,700);
+ window.nurlanHomeRestoreKnownDevices=restoreKnownDevices;
+ setTimeout(()=>{runBleDiagnostics(false);restoreKnownDevices()},700);
+ $("#bleDiagButton").addEventListener("click",async()=>{await runBleDiagnostics(true);await restoreKnownDevices()});
+ async function runBleDiagnostics(showToast){
+  const out=$("#bleDiagResult"),api=!!navigator.bluetooth,getFn=!!(navigator.bluetooth&&typeof navigator.bluetooth.getDevices==="function"),map=readDeviceSlots(),saved=[0,1,2].filter(i=>!!map[String(i)]).length;
+  const lines=["Təhlükəsiz bağlantı (HTTPS): "+(window.isSecureContext?"Bəli":"Xeyr"),"Web Bluetooth API: "+(api?"mövcuddur":"yoxdur"),"getDevices(): "+(getFn?"mövcuddur":"bu brauzerdə yoxdur"),"Bu brauzerdə yadda saxlanmış slotlar: "+saved+"/3"];
+  if(api&&typeof navigator.bluetooth.getAvailability==="function"){try{lines.push("Bluetooth əlçatanlığı: "+(await navigator.bluetooth.getAvailability()?"Bəli":"Xeyr / bloklanıb"))}catch(e){lines.push("Bluetooth əlçatanlığı: yoxlanmadı ("+(e.name||"xəta")+")")}}
+  if(navigator.permissions&&navigator.permissions.query){try{const p=await navigator.permissions.query({name:"bluetooth"});lines.push("Bluetooth icazə vəziyyəti: "+p.state)}catch(e){lines.push("Bluetooth icazə vəziyyəti: brauzer bu sorğunu dəstəkləmir")}}else lines.push("Bluetooth icazə vəziyyəti: Permissions API dəstəklənmir");
+  if(getFn){try{const ds=await navigator.bluetooth.getDevices();const savedIds=Object.values(map);const matches=ds.filter(d=>savedIds.includes(d.id)).length;lines.push("Əvvəl icazə verilmiş cihazlar: "+ds.length,"Yadda saxlanmış cihaz uyğunluğu: "+matches+"/3");}catch(e){lines.push("getDevices() xətası: "+(e.name||"Xəta")+" — "+(e.message||"detal yoxdur"))}}
+  lines.push("Qeyd: cihaz ID-ləri gizli saxlanılır; MAC ünvanı brauzerdən oxunmur.");
+  if(out)out.textContent=lines.join("\n");
+  if(showToast)toast("Bluetooth diaqnostikası tamamlandı.");
+ }
  $("#clearHistory").addEventListener("click",()=>{if(confirm("Əvvəlcə JSON ehtiyat nüsxəsi yaratmısan? Bu əməliyyat bu brauzerdə saxlanmış real ölçmələrin hamısını siləcək. Davam edilsin?")){localStorage.removeItem(storageKey);storageWarningShown=false;renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();toast("Real tarixçə silindi.")}});
  $("#backupBtn").addEventListener("click",backupJson);$("#backupBtn2").addEventListener("click",backupJson);$("#importBtn").addEventListener("click",()=>$("#importFile").click());$("#importBtn2").addEventListener("click",()=>$("#importFile").click());$("#importFile").addEventListener("change",e=>{if(e.target.files&&e.target.files[0])restoreJson(e.target.files[0]);e.target.value=""});$("#saveRules").addEventListener("click",()=>{saveRules();renderProDashboard()});
  $("#askHome").addEventListener("click",()=>{$("#homeAnswer").textContent=answerHome($("#homeQuestion").value||"Son 24 saatın xülasəsi")});
@@ -262,7 +292,7 @@
  $("#dailyReport").addEventListener("click",renderDailyReport);
  $("#nightMode").addEventListener("click",()=>{document.body.classList.toggle("night-mode");const on=document.body.classList.contains("night-mode");$("#nightMode").textContent=on?"☀️ Gecə rejimini söndür":"🌙 Gecə rejimini aktiv et";localStorage.setItem("nurlanHomeNightMode",on?"1":"0")});
  $("#saveAutomation").addEventListener("click",()=>{const a={room:$("#autoRoom").value,metric:$("#autoMetric").value,op:$("#autoOperator").value,value:Number($("#autoValue").value),minutes:Number($("#autoMinutes").value)};if(!Number.isFinite(a.value)){toast("Həddi yoxla.");return}localStorage.setItem("nurlanHomeAutomation",JSON.stringify(a));renderAutomation();toast("Qayda saxlanıldı.")});$("#notifyPermission").addEventListener("click",requestNotificationPermission);$("#testSound").addEventListener("click",()=>{playAlertSound();toast("Qısa səs sınağı.")});$("#enableSound").addEventListener("change",()=>{const rules=getRules();rules.sound=$("#enableSound").checked;localStorage.setItem(settingsKey,JSON.stringify(rules));if(rules.sound)playAlertSound()});$("#enableNotifications").addEventListener("change",()=>{const rules=getRules();rules.notifications=$("#enableNotifications").checked;localStorage.setItem(settingsKey,JSON.stringify(rules));if(rules.notifications)requestNotificationPermission();renderNotificationStatus()});$("#chartRange").addEventListener("change",()=>{chartHours=$("#chartRange").value==="all"?"all":Number($("#chartRange").value);renderCharts();renderMetrics();renderRoomStats()});document.querySelectorAll(".chart-room-toggle").forEach(el=>el.addEventListener("change",renderCharts));$("#exportBtn").addEventListener("click",()=>{const rows=historyRows();if(!rows.length){toast("İxrac ediləcək real ölçmə yoxdur.");return}const csv=[["Vaxt","Otaq","Cihaz","MAC","Temperatur_C","Rutubet_faiz","Batareya_mV"],...rows.map(r=>[new Date(r.time).toLocaleString("az-AZ"),r.room,r.device,r.mac||"",r.temp,r.hum,r.batt])].map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="nurlan-home-real-sensor-history.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
- document.querySelectorAll(".roomselect").forEach(el=>el.addEventListener("change",()=>{saveRoomSettings();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts()}));document.querySelectorAll(".macbox input").forEach(el=>el.addEventListener("change",()=>{const slot=Number(el.id.replace("mac",""));const rows=historyRows();rows.forEach(r=>{if(Number(r.slot)===slot)r.mac=el.value.trim()});saveHistory(rows);saveRoomSettings();renderHistory();toast("MAC qeydi saxlanıldı.")}));loadRoomSettings();const savedRules=getRules();$("#tempLow").value=savedRules.tempLow;$("#tempHigh").value=savedRules.tempHigh;$("#humLow").value=savedRules.humLow;$("#humHigh").value=savedRules.humHigh;$("#enableSound").checked=savedRules.sound!==false;$("#pageTime").textContent="Səhifə açılıb: "+stamp();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderNotificationStatus();updateCount();renderProDashboard();renderAutomation();if(localStorage.getItem("nurlanHomeNightMode")==="1"){document.body.classList.add("night-mode");$("#nightMode").textContent="☀️ Gecə rejimini söndür"}if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const reg=await navigator.serviceWorker.register("./sw.js?v=SMART-HOME-14",{updateViaCache:"none"});await reg.update()}catch(e){console.warn("Service worker yenilənmədi",e)}})}window.addEventListener("resize",renderCharts);
+ document.querySelectorAll(".roomselect").forEach(el=>el.addEventListener("change",()=>{saveRoomSettings();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts()}));document.querySelectorAll(".macbox input").forEach(el=>el.addEventListener("change",()=>{const slot=Number(el.id.replace("mac",""));const rows=historyRows();rows.forEach(r=>{if(Number(r.slot)===slot)r.mac=el.value.trim()});saveHistory(rows);saveRoomSettings();renderHistory();toast("MAC qeydi saxlanıldı.")}));loadRoomSettings();const savedRules=getRules();$("#tempLow").value=savedRules.tempLow;$("#tempHigh").value=savedRules.tempHigh;$("#humLow").value=savedRules.humLow;$("#humHigh").value=savedRules.humHigh;$("#enableSound").checked=savedRules.sound!==false;$("#pageTime").textContent="Səhifə açılıb: "+stamp();renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderNotificationStatus();updateCount();renderProDashboard();renderAutomation();if(localStorage.getItem("nurlanHomeNightMode")==="1"){document.body.classList.add("night-mode");$("#nightMode").textContent="☀️ Gecə rejimini söndür"}if("serviceWorker" in navigator){window.addEventListener("load",async()=>{try{const reg=await navigator.serviceWorker.register("./sw.js?v=SMART-HOME-15",{updateViaCache:"none"});await reg.update()}catch(e){console.warn("Service worker yenilənmədi",e)}})}window.addEventListener("resize",renderCharts);
 })();
 
 // JARVIS UI v2: resilient local analytics based only on recorded sensor readings.
@@ -449,7 +479,7 @@
 })();
 
 
-// SMART-HOME-14: reliable JARVIS quick-question fallback.
+// SMART-HOME-15: reliable JARVIS quick-question fallback.
 (function(){
  const root=document.getElementById("jarvisCore");
  if(!root||root.dataset.resilientBound==="1")return;
