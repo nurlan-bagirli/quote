@@ -306,6 +306,13 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
    const fallback={"mətbəx":0,"yataq otağı":1,"qonaq otağı":2};
    return Object.prototype.hasOwnProperty.call(fallback,normalized)?fallback[normalized]:-1;
  }
+ function formatBatteryDisplay(value){
+  const mv=Number(value);
+  if(!Number.isFinite(mv)||mv<=0)return "— mV";
+  // Approximate voltage indicator only; CR2032 voltage is not a linear measure of remaining capacity.
+  const pct=Math.max(0,Math.min(100,Math.round((mv-2000)/10)));
+  return mv+" mV · 🔋 ~"+pct+"%";
+ }
  function renderCloudLatestToCards(){
    const rows=historyRows();
    const fallback={"mətbəx":0,"yataq otağı":1,"qonaq otağı":2};
@@ -320,7 +327,7 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
      const temp=document.getElementById("temp"+slot),hum=document.getElementById("hum"+slot),batt=document.getElementById("batt"+slot),seen=document.getElementById("seen"+slot),pill=document.getElementById("pill"+slot);
      if(temp)temp.innerHTML=Number(latest.temp).toFixed(2)+'<small> °C</small>';
      if(hum)hum.textContent=Number(latest.hum)+'%';
-     if(batt)batt.textContent=(Number(latest.batt)||0)+' mV';
+     if(batt)batt.textContent=formatBatteryDisplay(latest.batt);
      if(seen)seen.textContent="Bulud ölçməsi: "+new Date(latest.time).toLocaleTimeString("az-AZ");
      if(pill){pill.textContent="BULUD";pill.classList.remove("live");}
    }
@@ -359,7 +366,7 @@ window.NURLAN_SUPABASE_KEY = "sb_publishable_2StXP3DE2Sccf8OPLgFZPw_xM5dYDiM";
  function showValue(slot,device,value){
   if(!value||value.byteLength<5){$("#seen"+slot).textContent="Sensor məlumat paketi uyğun deyil";return}
   const temp=value.getInt16(0,true)/100,hum=value.getUint8(2),batt=value.getUint16(3,true),date=new Date();
-  $("#temp"+slot).innerHTML=temp.toFixed(2)+'<small> °C</small>';$("#hum"+slot).textContent=hum+"%";$("#batt"+slot).textContent=batt+" mV";$("#seen"+slot).textContent="Son ölçmə: "+date.toLocaleTimeString("az-AZ");$("#pill"+slot).textContent="CANLI";$("#pill"+slot).classList.add("live");
+  $("#temp"+slot).innerHTML=temp.toFixed(2)+'<small> °C</small>';$("#hum"+slot).textContent=hum+"%";$("#batt"+slot).textContent=formatBatteryDisplay(batt);$("#seen"+slot).textContent="Son ölçmə: "+date.toLocaleTimeString("az-AZ");$("#pill"+slot).textContent="CANLI";$("#pill"+slot).classList.add("live");
   const room=document.querySelector('[data-slot="'+slot+'"] .roomselect').value;
   const mac=$("#mac"+slot).value.trim();const rows=historyRows();rows.push({time:date.toISOString(),slot,device:device.name||"LYWSD03MMC",mac,room,temp,hum,batt});saveHistory(rows);renderHistory();renderCharts();renderMetrics();renderRoomStats();renderAlerts();renderStorageInfo();renderProDashboard();checkAutomationReading({room,temp,hum,batt,slot});
    sendCloudReading({time:date.toISOString(),slot,device:device.name||"LYWSD03MMC",mac,room,temp,hum,batt});
